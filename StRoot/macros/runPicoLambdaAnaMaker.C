@@ -35,7 +35,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 { 
   // -- Check STAR Library. Please set SL_version to the original star library used in the production 
   //    from http://www.star.bnl.gov/devcgi/dbProdOptionRetrv.pl
-  string SL_version = "SL21d"; //originally SL16j, not available at RCF any more
+  string SL_version = "SL20c"; //also SL21d is available with smaller production sample 08/21/2022
   string env_SL = getenv ("STAR");
   if (env_SL.find(SL_version)==string::npos) {
     cout<<"Environment Star Library does not match the requested library in runPicoHFMyAnaMaker.C. Exiting..."<<endl;

@@ -1,6 +1,6 @@
 #!/bin/tcsh
 
-#Run17 p+p @ 510 GeV: SL21d
-starver SL21d
+#Run17 p+p @ 510 GeV: SL20c
+starver SL20c
 
 cons
