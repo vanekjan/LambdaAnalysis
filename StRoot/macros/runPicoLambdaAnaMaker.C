@@ -117,7 +117,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setCutVzMax(30.);
   hfCuts->setCutVzVpdVzMax(3.);
 
-  //Run17 SL21d triggers
+  //Run17 pp510GeV triggers
   hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)
 
   hfCuts->setCutNHitsFitMin(20); //for analysis (TTree)
@@ -146,9 +146,9 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   dcaDaughters12Max = 1.;
 
   decayLengthMin = 2.;
-  decayLengthMax = 10.;
+  decayLengthMax = 50.;
 
-  cosThetaMin = 0.95;
+  cosThetaMin = 0.98;
 
   massMin = 0.9;
   massMax = 1.3;
@@ -176,10 +176,10 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   //TOF setters, need to set pt range as well
   hfCuts->setCutTOFDeltaOneOverBeta(0.03, StHFCuts::kProton);
-  hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kProton); //for TMVA
+  hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kProton); 
 
   hfCuts->setCutTOFDeltaOneOverBeta(0.03, StHFCuts::kPion);
-  hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kPion); //for TMVA
+  hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kPion);
 
   // ========================================================================================
 

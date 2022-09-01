@@ -1,11 +1,14 @@
 #include <limits>
 #include <cmath>
+#include <iostream>
 
 #include "StHFPair.h"
 
 #include "StPicoEvent/StPicoPhysicalHelix.h"
 #include "StarClassLibrary/SystemOfUnits.h"
 #include "StPicoEvent/StPicoTrack.h"
+
+using namespace std;
 
 ClassImp(StHFPair)
 
@@ -14,7 +17,8 @@ StHFPair::StHFPair(): mLorentzVector(TLorentzVector()), mDecayVertex(TVector3())
   mPointingAngle(std::numeric_limits<float>::quiet_NaN()), mDecayLength(std::numeric_limits<float>::quiet_NaN()),
   mParticle1Dca(std::numeric_limits<float>::quiet_NaN()), mParticle2Dca(std::numeric_limits<float>::quiet_NaN()),
   mParticle1Idx(std::numeric_limits<unsigned short>::max()), mParticle2Idx(std::numeric_limits<unsigned short>::max()),
-  mDcaDaughters(std::numeric_limits<float>::max()), mCosThetaStar(std::numeric_limits<float>::quiet_NaN()) {
+  mDcaDaughters(std::numeric_limits<float>::max()), mCosThetaStar(std::numeric_limits<float>::quiet_NaN()),
+  mThetaProdPlane(std::numeric_limits<float>::quiet_NaN()), mProdPlane(TVector3()) {
 }
 
 // _________________________________________________________
@@ -22,7 +26,8 @@ StHFPair::StHFPair(StHFPair const * t) : mLorentzVector(t->mLorentzVector), mDec
    mPointingAngle(t->mPointingAngle), mDecayLength(t->mDecayLength),
    mParticle1Dca(t->mParticle1Dca), mParticle2Dca(t->mParticle2Dca),
    mParticle1Idx(t->mParticle1Idx), mParticle2Idx(t->mParticle2Idx),
-   mDcaDaughters(t->mDcaDaughters), mCosThetaStar(t->mCosThetaStar) {
+   mDcaDaughters(t->mDcaDaughters), mCosThetaStar(t->mCosThetaStar),
+   mThetaProdPlane(t->mThetaProdPlane), mProdPlane(t->mProdPlane) {
 }
 
 // _________________________________________________________
@@ -78,8 +83,17 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StPicoTrack const * cons
   // -- calculate cosThetaStar
   TLorentzVector const pairFourMomReverse(-mLorentzVector.Px(), -mLorentzVector.Py(), -mLorentzVector.Pz(), mLorentzVector.E());
   TLorentzVector p1FourMomStar = p1FourMom;
-  p1FourMomStar.Boost(pairFourMomReverse.Vect());
+  //p1FourMomStar.Boost(pairFourMomReverse.Vect());
+  p1FourMomStar.Boost(pairFourMomReverse.BoostVector());  
   mCosThetaStar = std::cos(p1FourMomStar.Vect().Angle(mLorentzVector.Vect()));
+
+  TVector3 beamVector(0.,0.,1.); //unity vector along the beam axis
+  TVector3 mProdPlane_work = beamVector.Cross(mLorentzVector.Vect());
+  mProdPlane = ( mProdPlane_work )*(1./mProdPlane_work.Mag() );
+
+  mThetaProdPlane = mProdPlane.Angle(p1FourMomStar.Vect());
+
+  //cout<<mThetaProdPlane<<endl; 
 
   // -- calculate decay vertex (secondary or tertiary) 
   mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
@@ -157,8 +171,15 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StHFPair const * const p
   // -- calculate cosThetaStar
   TLorentzVector const pairFourMomReverse(-mLorentzVector.Px(), -mLorentzVector.Py(), -mLorentzVector.Pz(), mLorentzVector.E());
   TLorentzVector p1FourMomStar = p1FourMom;
-  p1FourMomStar.Boost(pairFourMomReverse.Vect());
+  p1FourMomStar.Boost(pairFourMomReverse.BoostVector()); //particle1 momentum in mother rest frame
   mCosThetaStar = std::cos(p1FourMomStar.Vect().Angle(mLorentzVector.Vect()));
+
+
+  TVector3 beamVector(0.,0.,1.); //unity vector along the beam axis
+  TVector3 mProdPlane_work = beamVector.Cross(mLorentzVector.Vect());
+  mProdPlane = ( mProdPlane_work )*(1./mProdPlane_work.Mag() );
+
+  mThetaProdPlane = mProdPlane.Angle(p1FourMomStar.Vect());
 
   // -- calculate decay vertex (secondary) 
   mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;

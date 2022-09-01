@@ -55,6 +55,7 @@ class StHFPair : public TObject
 
   TLorentzVector const & lorentzVector() const;
   TVector3 const & decayVertex() const;
+  TVector3 const & prodPlane() const;
   float m()    const;
   float pt()   const;
   float eta()  const;
@@ -71,6 +72,7 @@ class StHFPair : public TObject
   unsigned short particle2Idx() const;
   float dcaDaughters() const;
   float cosThetaStar() const;
+  float thetaProdPlane() const;
   float v0x() const;
   float v0y() const;
   float v0z() const;
@@ -83,7 +85,9 @@ class StHFPair : public TObject
   StHFPair(StHFPair const &);
   StHFPair& operator=(StHFPair const &);
   TLorentzVector mLorentzVector; 
-  TVector3   mDecayVertex; 
+  TVector3   mDecayVertex;
+
+  TVector3 mProdPlane; //production plane vector: unity vector perpendicular to production plane
 
   float mPointingAngle;
   float mDecayLength;
@@ -96,6 +100,7 @@ class StHFPair : public TObject
 
   float mDcaDaughters;
   float mCosThetaStar;
+  float mThetaProdPlane; //anlgle between momentum of particle1 and mProdPlane vector in mother rest frame
 
   ClassDef(StHFPair,2)
 };
@@ -116,6 +121,8 @@ inline unsigned short StHFPair::particle1Idx() const { return mParticle1Idx;}
 inline unsigned short StHFPair::particle2Idx() const { return mParticle2Idx;}
 inline float StHFPair::dcaDaughters() const { return mDcaDaughters;}
 inline float StHFPair::cosThetaStar() const { return mCosThetaStar;}
+inline float StHFPair::thetaProdPlane() const { return mThetaProdPlane;}
+inline TVector3 const & StHFPair::prodPlane() const { return mProdPlane;}
 inline TVector3 const & StHFPair::decayVertex() const { return mDecayVertex;}
 inline float StHFPair::v0x() const { return mDecayVertex.x();}
 inline float StHFPair::v0y() const { return mDecayVertex.y();}

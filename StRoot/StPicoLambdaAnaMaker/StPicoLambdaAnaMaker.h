@@ -163,6 +163,9 @@ private:
 	//pair
 	Int_t charge;
   Float_t pairDCA;
+  Float_t thetaProdPlane;
+
+  Float_t  prodPlane_x, prodPlane_y, prodPlane_z;
 
 	//Lambda
 	Float_t L_theta, L_cosThetaStar, L_decayL, L_phi, L_eta, L_pt, L_mass;

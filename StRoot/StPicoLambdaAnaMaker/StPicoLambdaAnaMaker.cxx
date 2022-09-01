@@ -99,6 +99,11 @@ int StPicoLambdaAnaMaker::InitHF() {
   //dca, flag, prim. vertex
   ntp_Lambda->Branch("charge", &charge, "charge/I");      //Int_t charge
   ntp_Lambda->Branch("pairDCA", &pairDCA, "pairDCA/F");      //Int_t pairDCA
+  ntp_Lambda->Branch("thetaProdPlane", &thetaProdPlane, "thetaProdPlane/F");      //Int_t thetaProdPlane
+
+  ntp_Lambda->Branch("prodPlane_x", &prodPlane_x, "prodPlane_x/F");      //Int_t prodPlane_x
+  ntp_Lambda->Branch("prodPlane_y", &prodPlane_y, "prodPlane_y/F");      //Int_t prodPlane_y
+  ntp_Lambda->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
 
   //Lambda baryon
   ntp_Lambda->Branch("L_theta", &L_theta, "L_theta/F");   //Float_t L_theta
@@ -353,6 +358,8 @@ int StPicoLambdaAnaMaker::createCandidates() {
       // -- Making pair, want proton first for cosThetaStar calculation
       StHFPair pair(proton, pion, mHFCuts->getHypotheticalMass(StHFCuts::kProton), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoProtons[idxProton], mIdxPicoPions[idxPion], mPrimVtx, mBField);
 
+      //cout<<pair.prodPlane().x()<<endl;
+
       if(!mHFCuts->isGoodSecondaryVertexPair(pair)) continue;
 
       mPicoHFEvent->addHFSecondaryVertexPair(&pair);
@@ -435,6 +442,14 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
       else if( fabs(pion->charge() + proton->charge()) == 2 ) charge = 1; // unlike-sign - combinatorial background
 
       pairDCA = pair->dcaDaughters();
+
+      thetaProdPlane = pair->thetaProdPlane();
+
+      prodPlane_x = pair->prodPlane().x();
+      prodPlane_y = pair->prodPlane().y();
+      prodPlane_z = pair->prodPlane().z();
+
+      //cout<<pair->thetaProdPlane()<<endl;
 
       L_theta = pair->pointingAngle();
       L_cosThetaStar = pair->cosThetaStar();

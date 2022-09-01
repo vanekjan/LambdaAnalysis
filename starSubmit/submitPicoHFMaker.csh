@@ -64,7 +64,8 @@ set starVersion=SL20c
 
 # -- production base path (to find picoDsts to corresponding trees
 #set productionbasePath=/star/data100/reco/AuAu_200_production_2016/ReversedFullField/P16ij/2016
-set productionbasePath=root://xrdstar.rcf.bnl.gov:1095//home/starlib/home/starreco/reco/pp500_production_2017/ReversedFullField/P20ic.SL21d/2017/
+#set productionbasePath=root://xrdstar.rcf.bnl.gov:1095//home/starlib/home/starreco/reco/pp500_production_2017/ReversedFullField/P20ic.SL21d/2017/
+set productionbasePath=root://xrdstar.rcf.bnl.gov:1095//home/starlib/home/starreco/reco/pp500_production_2017/ReversedFullField/P20ic/2017/
 
 # -- submission xml file 
 set xmlFile=submitPicoHFMaker.xml
