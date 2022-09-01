@@ -2,6 +2,7 @@
 
 #max. line is 22173 in file list SL21d
 #max. line is 444695 in file list SL20d
+#to test submit
 
 sed -n '10001,20000 p' ./picoLists/picoList_Run17_SL20c.list > picoList_submit.list
 
