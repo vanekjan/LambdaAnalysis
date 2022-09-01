@@ -3,7 +3,7 @@
 #max. line is 22173 in file list SL21d
 #max. line is 444695 in file list SL20d
 
-sed -n '1,10000 p' ./picoLists/picoList_Run17_SL20c.list > picoList_submit.list
+sed -n '10001,20000 p' ./picoLists/picoList_Run17_SL20c.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 
