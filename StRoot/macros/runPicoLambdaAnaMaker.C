@@ -31,11 +31,11 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
     const unsigned int makerMode = 0 /*kAnalyze*/,
     const Char_t *badRunListFileName = "picoList_bad_MB.list", const Char_t *treeName = "picoHFtree",
     const Char_t *productionBasePath = "/star/data100/reco/AuAu_200_production_2016/ReversedFullField/P16ij/2016",
-    const unsigned int decayChannel = 0 /* kChannel0 */) 
+    const unsigned int decayChannel = 0 /* kChannel0 */, string SL_version = "SL20c") 
 { 
   // -- Check STAR Library. Please set SL_version to the original star library used in the production 
   //    from http://www.star.bnl.gov/devcgi/dbProdOptionRetrv.pl
-  string SL_version = "SL20c"; //also SL21d is available with smaller production sample 08/21/2022
+  //string SL_version = "SL20c"; //also SL21d for Run17 is available with smaller production sample 08/21/2022
   string env_SL = getenv ("STAR");
   if (env_SL.find(SL_version)==string::npos) {
     cout<<"Environment Star Library does not match the requested library in runPicoHFMyAnaMaker.C. Exiting..."<<endl;
@@ -117,6 +117,10 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setCutVzMax(30.);
   hfCuts->setCutVzVpdVzMax(3.);
 
+  //Run12 pp200GeV triggers
+  hfCuts->addTriggerId(370001); //VPDMB
+  hfCuts->addTriggerId(370011); //VPDMB-nosmd
+
   //Run17 pp510GeV triggers
   hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)
 
@@ -146,7 +150,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   dcaDaughters12Max = 1.;
 
   decayLengthMin = 2.;
-  decayLengthMax = 50.;
+  decayLengthMax = 25.; //changed to 25 to suppress background
 
   cosThetaMin = 0.98;
 

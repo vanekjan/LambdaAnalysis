@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<job fileListSyntax="xrootd" minFilesPerProcess="&minNFiles;" maxFilesPerProcess="&maxNFiles;" filesPerHour="&FperH;" simulateSubmission="false">
+<job fileListSyntax="xrootd" minFilesPerProcess="&minNFiles;" maxFilesPerProcess="&maxNFiles;" filesPerHour="&FperH;" copyInputLocally="true" simulateSubmission="false">
   <stdout URL="file:&basePath;/jobs/&prodId;/log/$JOBID.out"/>
   <stderr URL="file:&basePath;/jobs/&prodId;/err/$JOBID.err"/>
 
@@ -19,7 +19,13 @@
 
     mkdir -p ${PRODPATH} ${LOGPATH}
 
-    root -q -b -l StRoot/macros/loadSharedHFLibraries.C StRoot/macros/&rootMacro;\(\"$FILELIST\",\"&prodId;_$JOBINDEX\",&mMode;,\"picoList_badRuns.list\",\"&treeName;\",\"&productionBasePath;\",&decayChannel;\) &gt;&amp; ${JOBID}.log
+    grep \"xrdstar\" ./INPUTFILES/${JOBID}.local.list > ${JOBID}.uncopied.list
+
+    sed -i '/xrdstar/d' ./INPUTFILES/${JOBID}.local.list
+
+    ls -l INPUTFILES
+
+    root -q -b -l StRoot/macros/loadSharedHFLibraries.C StRoot/macros/&rootMacro;\(\"$FILELIST\",\"&prodId;_$JOBINDEX\",&mMode;,\"picoList_badRuns.list\",\"&treeName;\",\"&productionBasePath;\",&decayChannel;,\"&starVersion;\"\) &gt;&amp; ${JOBID}.log
     tar -zcvf ${JOBID}.log.tgz ${JOBID}.log    
 
   </command>
@@ -27,6 +33,7 @@
   <output fromScratch="*.root"    toURL="$PRODPATH/" />
   <output fromScratch="*.log.tgz" toURL="$LOGPATH/" />
   <output fromScratch="*.log"     toURL="$LOGPATH/" />
+  <output fromScratch="*.uncopied.list" toURL="$LOGPATH/">
   
   <SandBox installer="ZIP">
     <Package name="LocalLibraries">

@@ -4,7 +4,7 @@
 #max. line is 444695 in file list SL20d
 #to test submit
 
-sed -n '10001,20000 p' ./picoLists/picoList_Run17_SL20c.list > picoList_submit.list
+sed -n '10000,11000 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 
@@ -17,11 +17,13 @@ path=$( echo $path | sed 's|//|/|g' )
 
 echo executing submitPicoHFMaker.csh f0r picoList_test.list inside $path
 
-#starver SL21d
-starver SL20c
+starver SL21d
+
+#re-compile under correct library
+./compile_SL21d.csh
 
 #for list generated directly by sed ad the top of this macro
-csh starSubmit/submitPicoHFMaker.csh $path picoList_submit.list
+csh starSubmit/submitPicoHFMaker_SL21d.csh $path picoList_submit.list
 
 #for pre-generated sublists
 #csh starSubmit/submitPicoHFMaker.csh $path ./picoLists/sublists/picoList_test_08.list
