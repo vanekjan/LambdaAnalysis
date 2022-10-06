@@ -135,9 +135,10 @@ private:
 
 
   // -- ADD USER MEMBERS HERE ------------------- 
-   TTree *ntp_Lambda; //Vanek
+  TTree *ntp_Lambda;
+  TTree *ntp_K0s;
 
-   int mRunNumber;
+  int mRunNumber;
        
   TString mOutFileBaseName;
 
@@ -145,30 +146,28 @@ private:
    //---Variables for TTree---------------------------
 	//event stats
 	Int_t runId, eventId;
+  Float_t VzVzVPDmax;
 
-  //Pion
-	Float_t pi_phi, pi_eta, pi_pt, pi_dca, pi_ch;
-  Int_t hasTOFinfo_pion;
-  //pi1_dca, pi1_dedx, pi1_nSigma;
-	//Int_t pi1_nHitFit, pi1_nHitsMax, pi1_nHitdedx;
-	//Float_t pi1_TOFinvbeta, pi1_betaBase;
+  //daughter 1
+	Float_t p1_phi, p1_eta, p1_pt, p1_dca, p1_ch;
+  Int_t p1_hasTOFinfo;
 
-	//Proton
-	Float_t p_phi, p_eta, p_pt, p_dca, p_ch;
-  Int_t hasTOFinfo_proton;
-  //pi2_dca, pi2_dedx, pi2_nSigma;
-	//Int_t pi2_nHitFit, pi2_nHitsMax, pi2_nHitdedx;
-	//Float_t pi2_TOFinvbeta, pi2_betaBase;
+
+	//daughter 2
+	Float_t p2_phi, p2_eta, p2_pt, p2_dca, p2_ch;
+  Int_t p2_hasTOFinfo;
+
 
 	//pair
-	Int_t charge;
-  Float_t pairDCA;
+	Int_t pair_charge;
+  Float_t pair_DCAdaughters;
+ 
+	Float_t pair_theta, pair_cosThetaStar, pair_decayL, pair_phi, pair_eta, pair_pt, pair_mass;
+
+  //production plane
   Float_t thetaProdPlane;
 
-  Float_t  prodPlane_x, prodPlane_y, prodPlane_z;
-
-	//Lambda
-	Float_t L_theta, L_cosThetaStar, L_decayL, L_phi, L_eta, L_pt, L_mass;
+  Float_t prodPlane_x, prodPlane_y, prodPlane_z;
 
 
 	//ZDCx, BBCx

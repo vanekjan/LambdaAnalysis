@@ -90,7 +90,8 @@ class StPicoHFMaker : public StMaker
     //    - kAnalyze - don't write candidate trees, just fill histograms
     //    - kWrite   - write candidate trees
     //    - kRead    - read candidate trees and fill histograms
-    enum eMakerMode {kAnalyze, kWrite, kRead};
+    //    - kQA      - run QA defined by user
+    enum eMakerMode {kAnalyze, kWrite, kRead, kQA}; //added kQA 09/29/2022
 
     // -- TO BE IMPLEMENTED BY DAUGHTER CLASS
     virtual bool  isHadron(StPicoTrack const*, int pidFlag)   const { return true; }

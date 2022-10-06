@@ -36,6 +36,7 @@ set input=${baseFolder}/${2}
 #    0 - kAnalyze, 
 #    1 - kWrite
 #    2 - kRead
+#    3 - kQA
 set makerMode=0
 
 # -- set root macro

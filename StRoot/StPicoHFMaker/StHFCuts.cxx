@@ -16,6 +16,7 @@ StHFCuts::StHFCuts() : StPicoCutsBase("HFCutsBase"),
   mSecondaryPairCosThetaMin(std::numeric_limits<float>::lowest()), 
   mSecondaryPairMassMin(std::numeric_limits<float>::lowest()), mSecondaryPairMassMax(std::numeric_limits<float>::max()), 
   mSecondaryPairDcaToPvMax(std::numeric_limits<float>::max()),
+  mSecondaryPairDcaToPvMax_2(std::numeric_limits<float>::max()),
 
   mTertiaryPairDcaDaughtersMax(std::numeric_limits<float>::max()), 
   mTertiaryPairDecayLengthMin(std::numeric_limits<float>::lowest()), mTertiaryPairDecayLengthMax(std::numeric_limits<float>::max()), 
@@ -38,6 +39,7 @@ StHFCuts::StHFCuts(const Char_t *name) : StPicoCutsBase(name),
   mSecondaryPairCosThetaMin(std::numeric_limits<float>::lowest()), 
   mSecondaryPairMassMin(std::numeric_limits<float>::lowest()), mSecondaryPairMassMax(std::numeric_limits<float>::max()), 
   mSecondaryPairDcaToPvMax(std::numeric_limits<float>::max()),
+  mSecondaryPairDcaToPvMax_2(std::numeric_limits<float>::max()),
 
   mTertiaryPairDcaDaughtersMax(std::numeric_limits<float>::max()), 
   mTertiaryPairDecayLengthMin(std::numeric_limits<float>::lowest()), mTertiaryPairDecayLengthMax(std::numeric_limits<float>::max()), 
@@ -80,6 +82,17 @@ bool StHFCuts::isGoodSecondaryVertexPair(StHFPair const & pair) const {
 	   pair.decayLength() > mSecondaryPairDecayLengthMin && pair.decayLength() < mSecondaryPairDecayLengthMax &&
 	   pair.dcaDaughters() < mSecondaryPairDcaDaughtersMax &&
 	   pair.DcaToPrimaryVertex() < mSecondaryPairDcaToPvMax);
+}
+
+// _________________________________________________________
+bool StHFCuts::isGoodSecondaryVertexPair_2(StHFPair const & pair) const {
+  // -- check for good secondary vertex pair
+
+  return ( pair.m() > mSecondaryPairMassMin_2 && pair.m() < mSecondaryPairMassMax_2 &&
+	   std::cos(pair.pointingAngle()) > mSecondaryPairCosThetaMin_2 &&
+	   pair.decayLength() > mSecondaryPairDecayLengthMin_2 && pair.decayLength() < mSecondaryPairDecayLengthMax_2 &&
+	   pair.dcaDaughters() < mSecondaryPairDcaDaughtersMax_2 &&
+	   pair.DcaToPrimaryVertex() < mSecondaryPairDcaToPvMax_2);
 }
 
 // _________________________________________________________
@@ -177,5 +190,11 @@ bool StHFCuts::hasGoodTripletDaughtersDCAtoPV(StHFTriplet const &triplet) const
 {
   return ( triplet.particle1Dca() > mDcaMinDaughter && triplet.particle2Dca() > mDcaMinDaughter && triplet.particle3Dca() > mDcaMinDaughter );
 
+}
+
+//___________________________________________________________________________________________________________
+bool StHFCuts::requireStrictTOF() const 
+{ 
+  return mStrictTOF; 
 }
 

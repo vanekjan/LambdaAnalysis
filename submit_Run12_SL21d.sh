@@ -4,7 +4,7 @@
 #max. line is 444695 in file list SL20d
 #to test submit
 
-sed -n '10000,11000 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
+sed -n '1,10000 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 

@@ -14,7 +14,7 @@
  *            Michael Lomnitz (mrlomnitz@lbl.gov)
  *            Guannan Xie     (guannanxie@lbl.gov)
  *            Miroslav Simko  (msimko@bnl.gov)
- *            Jan Vanek       (vanek@ujf.cas.cz)
+ *            Jan Vanek       (jvanek@bnl.gov)
  *
  *  ** Code Maintainer
  *
@@ -45,6 +45,8 @@ class StHFCuts : public StPicoCutsBase
   bool isClosePair(StHFPair const & pair) const;
 
   bool isGoodSecondaryVertexPair(StHFPair const & pair) const;
+  bool isGoodSecondaryVertexPair_2(StHFPair const & pair) const; //to check different set of pair cuts
+
   bool isGoodTertiaryVertexPair(StHFPair const & pair) const;
   bool isGoodSecondaryVertexTriplet(StHFTriplet const & triplet) const;
 
@@ -57,6 +59,8 @@ class StHFCuts : public StPicoCutsBase
 	bool hasGoodPtQA(StPicoTrack const *track) const;
   bool hasGoodTripletDaughtersDCAtoPV(StHFTriplet const &triplet) const;
 
+  bool requireStrictTOF() const; //
+
 
 //--------------------------------------------------------------------------
 
@@ -64,6 +68,9 @@ class StHFCuts : public StPicoCutsBase
   // -- SETTER for CUTS
   // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
   void setCutSecondaryPair(float dcaDaughtersMax, float decayLengthMin, float decayLengthMax, 
+  float cosThetaMin, float massMin, float massMax); 
+
+  void setCutSecondaryPair_2(float dcaDaughtersMax, float decayLengthMin, float decayLengthMax, 
   float cosThetaMin, float massMin, float massMax); 
   
   void setCutTertiaryPair(float dcaDaughtersMax, float decayLengthMin, float decayLengthMax, 
@@ -80,6 +87,8 @@ class StHFCuts : public StPicoCutsBase
 
   void setCutSecondaryPairDcaToPvMax(float dcaToPvMax){ mSecondaryPairDcaToPvMax = dcaToPvMax; }
 
+  void setCutSecondaryPairDcaToPvMax_2(float dcaToPvMax){ mSecondaryPairDcaToPvMax_2 = dcaToPvMax; }
+
   void setCutTertiaryPairDcaToPvMax(float dcaToPvMax) { mTertiaryPairDcaToPvMax = dcaToPvMax; }
 
 	void setCutPtQA(float PtQA) { mPtQA = PtQA; }
@@ -92,6 +101,7 @@ class StHFCuts : public StPicoCutsBase
 	void setCutTripletdV0Max(float dV0MaxSetCut) {mdV0MaxCut = dV0MaxSetCut;}
   void setCutTripletdV0MaxHighPt(float dV0MaxSetCut) {mdV0MaxCut_02 = dV0MaxSetCut;}
   void setCutSecondaryDaughtersDCAtoPVmin(float dcaMin) { mDcaMinDaughter = dcaMin; }
+  void setCutRequireStrictTOF(bool strictTOF) { mStrictTOF = strictTOF; }
 
   void setStream(float stream) { mStream = stream; }
 //--------------------------------------------------------------------------------------------------------
@@ -107,6 +117,14 @@ class StHFCuts : public StPicoCutsBase
   const float&    cutSecondaryPairMassMin()               const;
   const float&    cutSecondaryPairMassMax()               const;
   const float&    cutSecondaryPairDcaToPvMax()		  const;
+
+  const float&    cutSecondaryPairDcaDaughtersMax_2()       const;
+  const float&    cutSecondaryPairDecayLengthMin_2()        const;
+  const float&    cutSecondaryPairDecayLengthMax_2()        const;
+  const float&    cutSecondaryPairCosThetaMin_2()           const;
+  const float&    cutSecondaryPairMassMin_2()               const;
+  const float&    cutSecondaryPairMassMax_2()               const;
+  const float&    cutSecondaryPairDcaToPvMax_2()		  const;
 
   const float&    cutTertiaryPairDcaDaughtersMax()        const;
   const float&    cutTertiaryPairDecayLengthMin()         const;
@@ -154,7 +172,9 @@ class StHFCuts : public StPicoCutsBase
 
   float mStream;
 
-	//---------------------------------------
+  bool mStrictTOF;
+
+  //---------------------------------------
 
   // ------------------------------------------
   // -- Pair cuts for secondary pair
@@ -166,6 +186,17 @@ class StHFCuts : public StPicoCutsBase
   float mSecondaryPairMassMin;
   float mSecondaryPairMassMax;
   float mSecondaryPairDcaToPvMax;
+
+  // ------------------------------------------
+  // -- Pair cuts for secondary pair - alternative cuts
+  // ------------------------------------------
+  float mSecondaryPairDcaDaughtersMax_2;
+  float mSecondaryPairDecayLengthMin_2; 
+  float mSecondaryPairDecayLengthMax_2; 
+  float mSecondaryPairCosThetaMin_2;
+  float mSecondaryPairMassMin_2;
+  float mSecondaryPairMassMax_2;
+  float mSecondaryPairDcaToPvMax_2;
 
   // ------------------------------------------
   // -- Pair cuts tertiary pair
@@ -217,6 +248,14 @@ inline void StHFCuts::setCutSecondaryPair(float dcaDaughtersMax, float decayLeng
   mSecondaryPairMassMin = massMin; mSecondaryPairMassMax = massMax; 
 }
 
+inline void StHFCuts::setCutSecondaryPair_2(float dcaDaughtersMax, float decayLengthMin, float decayLengthMax, 
+					  float cosThetaMin, float massMin, float massMax)  {
+  mSecondaryPairDcaDaughtersMax_2 = dcaDaughtersMax;
+  mSecondaryPairDecayLengthMin_2 = decayLengthMin; mSecondaryPairDecayLengthMax_2 = decayLengthMax;
+  mSecondaryPairCosThetaMin_2 = cosThetaMin;
+  mSecondaryPairMassMin_2 = massMin; mSecondaryPairMassMax_2 = massMax; 
+}
+
 inline void StHFCuts::setCutTertiaryPair(float dcaDaughtersMax, float decayLengthMin, float decayLengthMax, 
 					 float cosThetaMin, float massMin, float massMax)  {
   mTertiaryPairDcaDaughtersMax = dcaDaughtersMax;
@@ -264,6 +303,14 @@ inline const float&    StHFCuts::cutSecondaryPairCosThetaMin()           const {
 inline const float&    StHFCuts::cutSecondaryPairMassMin()               const { return mSecondaryPairMassMin; }
 inline const float&    StHFCuts::cutSecondaryPairMassMax()               const { return mSecondaryPairMassMax; }
 inline const float&    StHFCuts::cutSecondaryPairDcaToPvMax()            const { return mSecondaryPairDcaToPvMax; }
+
+inline const float&    StHFCuts::cutSecondaryPairDcaDaughtersMax_2()       const { return mSecondaryPairDcaDaughtersMax_2; }
+inline const float&    StHFCuts::cutSecondaryPairDecayLengthMin_2()        const { return mSecondaryPairDecayLengthMin_2; }
+inline const float&    StHFCuts::cutSecondaryPairDecayLengthMax_2()        const { return mSecondaryPairDecayLengthMax_2; }
+inline const float&    StHFCuts::cutSecondaryPairCosThetaMin_2()           const { return mSecondaryPairCosThetaMin_2; }
+inline const float&    StHFCuts::cutSecondaryPairMassMin_2()               const { return mSecondaryPairMassMin_2; }
+inline const float&    StHFCuts::cutSecondaryPairMassMax_2()               const { return mSecondaryPairMassMax_2; }
+inline const float&    StHFCuts::cutSecondaryPairDcaToPvMax_2()            const { return mSecondaryPairDcaToPvMax_2; }
 
 inline const float&    StHFCuts::cutTertiaryPairDcaDaughtersMax()        const { return mTertiaryPairDcaDaughtersMax; }
 inline const float&    StHFCuts::cutTertiaryPairDecayLengthMin()         const { return mTertiaryPairDecayLengthMin; }

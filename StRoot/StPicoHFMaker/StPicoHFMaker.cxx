@@ -214,7 +214,7 @@ Int_t StPicoHFMaker::Make() {
     UInt_t nTracks = mPicoDst->numberOfTracks();
 
     // -- Fill vectors of particle types
-    if (mMakerMode == StPicoHFMaker::kWrite || mMakerMode == StPicoHFMaker::kAnalyze) {
+    if (mMakerMode == StPicoHFMaker::kWrite || mMakerMode == StPicoHFMaker::kAnalyze || mMakerMode == StPicoHFMaker::kQA) {
       for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
 	      StPicoTrack* trk = mPicoDst->track(iTrack);
 

@@ -19,7 +19,7 @@
 
     mkdir -p ${PRODPATH} ${LOGPATH}
 
-    grep \"xrdstar\" ./INPUTFILES/${JOBID}.local.list > ${JOBID}.uncopied.list
+    grep 'xrdstar' ./INPUTFILES/${JOBID}.local.list > ${JOBID}.uncopied.list
 
     sed -i '/xrdstar/d' ./INPUTFILES/${JOBID}.local.list
 
@@ -33,7 +33,7 @@
   <output fromScratch="*.root"    toURL="$PRODPATH/" />
   <output fromScratch="*.log.tgz" toURL="$LOGPATH/" />
   <output fromScratch="*.log"     toURL="$LOGPATH/" />
-  <output fromScratch="*.uncopied.list" toURL="$LOGPATH/">
+  <output fromScratch="*.uncopied.list" toURL="$LOGPATH/" />
   
   <SandBox installer="ZIP">
     <Package name="LocalLibraries">

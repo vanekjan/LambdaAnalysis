@@ -63,20 +63,26 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   TString sProductionBasePath(productionBasePath);
   TString sTreeName(treeName);
 
-  if (makerMode == StPicoHFMaker::kAnalyze) {
-    if (!sInputFile.Contains(".list") && !sInputFile.Contains("picoDst.root")) {
+  if (makerMode == StPicoHFMaker::kAnalyze || makerMode == StPicoHFMaker::kQA)
+  {
+    if (!sInputFile.Contains(".list") && !sInputFile.Contains("picoDst.root"))
+    {
       cout << "No input list or picoDst root file provided! Exiting..." << endl;
       exit(1);
     }
   }
-  else if (makerMode == StPicoHFMaker::kWrite) {
-    if (!sInputFile.Contains("picoDst.root")) {
+  else if (makerMode == StPicoHFMaker::kWrite)
+  {
+    if (!sInputFile.Contains("picoDst.root"))
+    {
       cout << "No input picoDst root file provided! Exiting..." << endl;
       exit(1);
     }
   }
-  else if (makerMode == StPicoHFMaker::kRead) {
-    if (!sInputFile.Contains(".list")) {
+  else if (makerMode == StPicoHFMaker::kRead)
+  {
+    if (!sInputFile.Contains(".list"))
+    {
       cout << "No input list provided! Exiting..." << endl;
       exit(1);
     }
@@ -93,11 +99,14 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
     cout << "COMMAND : " << command << endl; 
     gSystem->Exec(command.Data());
   }
-  else {
+  else
+  {
     cout << "Unknown makerMode! Exiting..." << endl;
     exit(1);
   }
+
   StPicoDstMaker* picoDstMaker = new StPicoDstMaker(StPicoDstMaker::IoRead, sInputFile, "picoDstMaker"); //for local testing only
+
   StPicoLambdaAnaMaker* picoLambdaAnaMaker = new StPicoLambdaAnaMaker("picoLambdaAnaMaker", picoDstMaker, outputFile, sInputListHF);
   picoLambdaAnaMaker->setMakerMode(makerMode);
   picoLambdaAnaMaker->setDecayChannel(StPicoLambdaAnaMaker::kChannel1);//not needed?
@@ -115,7 +124,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   // -- ADD USER CUTS HERE ----------------------------
   hfCuts->setCutVzMax(30.);
-  hfCuts->setCutVzVpdVzMax(3.);
+  hfCuts->setCutVzVpdVzMax(100.); //original 3 - now open
 
   //Run12 pp200GeV triggers
   hfCuts->addTriggerId(370001); //VPDMB
@@ -138,11 +147,11 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   hfCuts->setCutEta(1.);
 
-  hfCuts->setCutDcaMin(0.7,StHFCuts::kPion);
+  hfCuts->setCutDcaMin(0.3,StHFCuts::kPion);
   //hfCuts->setCutDcaMin(0.01,StHFCuts::kKaon); 
   hfCuts->setCutDcaMin(0.1,StHFCuts::kProton); 
 
-  //-----------SECONDARY PAIR CUTS----------------------------
+  //-----------lambda selection cuts----------------------------
   float dcaDaughters12Max;
   float decayLengthMin, decayLengthMax;
   float cosThetaMin, massMin, massMax;
@@ -150,35 +159,57 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   dcaDaughters12Max = 1.;
 
   decayLengthMin = 2.;
-  decayLengthMax = 25.; //changed to 25 to suppress background
+  decayLengthMax = 50.;
 
-  cosThetaMin = 0.98;
+  cosThetaMin = 0.99;
 
   massMin = 0.9;
   massMax = 1.3;
 
   hfCuts->setCutSecondaryPair(dcaDaughters12Max, decayLengthMin, decayLengthMax, cosThetaMin, massMin, massMax);
-  // --- Lomnitz cuts to remove noise from ghosting
-  //------------------------------------------------------------
+  //______________________________________________________________________________________________________________
+
+  //-----------K0s selection cuts----------------------------
+  float dcaDaughtersMax_K0s;
+  float decayLengthMin_K0s, decayLengthMax_K0s;
+  float cosThetaMin_K0s, massMin_K0s, massMax_K0s;
+ 
+  //K0s cuts
+  dcaDaughtersMax_K0s = 1.;
+
+  decayLengthMin_K0s = 0.5;
+  decayLengthMax_K0s = 50.;
+
+  cosThetaMin_K0s = 0.99;
+
+  massMin_K0s = 0.45;
+  massMax_K0s = 0.55;
+
+  hfCuts->setCutSecondaryPair_2(dcaDaughtersMax_K0s, decayLengthMin_K0s, decayLengthMax_K0s, cosThetaMin_K0s, massMin_K0s, massMax_K0s);
+
+  //hfCuts->setCutSecondaryPairDcaToPvMax_2(0.5); //for K0s
+
 
   //Single track pt
   hfCuts->setCutPtRange(0.15,20.0,StHFCuts::kPion);
-  hfCuts->setCutPtRange(0.15,20.0,StHFCuts::kKaon); //for QA histograms
+  hfCuts->setCutPtRange(0.15,20.0,StHFCuts::kKaon);
   hfCuts->setCutPtRange(0.15,20.0,StHFCuts::kProton);
   //___________________________________________________________________________________________________________
 
   
   //TPC setters
   hfCuts->setCutTPCNSigmaPion(3.0);
-  hfCuts->setCutTPCNSigmaKaon(2.0); //for QA histograms
+  hfCuts->setCutTPCNSigmaKaon(2.0); 
   hfCuts->setCutTPCNSigmaProton(2.0);
 
-  //for QA histograms
+  //for TOF matching histograms
   hfCuts->setCutTPCNSigmaHadronHist(1.0, 1); //1 = pion
-  hfCuts->setCutTPCNSigmaHadronHist(1.0, 2); //2 = kaon - for QA histograms
+  hfCuts->setCutTPCNSigmaHadronHist(1.0, 2); //2 = kaon
   hfCuts->setCutTPCNSigmaHadronHist(1.0, 3); //3 = proton
 
   //TOF setters, need to set pt range as well
+  hfCuts->setCutRequireStrictTOF(true); // setter for strict TOF for pions (or second particle in pair in general)
+
   hfCuts->setCutTOFDeltaOneOverBeta(0.03, StHFCuts::kProton);
   hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kProton); 
 
@@ -192,14 +223,18 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   int nEvents = picoDstMaker->chain()->GetEntries();
   cout << " Total entries = " << nEvents << endl;
 
-  for (Int_t i=0; i<nEvents; i++) {
-    if(i%10000==0)
-      cout << "Working on eventNumber " << i << endl;
+  for (Int_t i=0; i<nEvents; i++)
+  {
+    if(i%10000==0) cout << "Working on eventNumber " << i << endl;
 
     chain->Clear();
     int iret = chain->Make(i);
 
-    if (iret) { cout << "Bad return code!" << iret << endl; break;}
+    if(iret) 
+    { 
+      cout << "Bad return code!" << iret << endl;
+      break;
+    }
 
     //total++;
   }
