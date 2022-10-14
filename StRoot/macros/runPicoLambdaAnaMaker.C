@@ -17,7 +17,7 @@
 #include <ctime>
 #include <cstdio>
 
-#include "StPicoLambdaAnaMaker/StPicoLambdaAnaMaker.h" //kvapil
+#include "StPicoLambdaAnaMaker/StPicoLambdaAnaMaker.h"
 
 using namespace std;
 
@@ -225,7 +225,8 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   for (Int_t i=0; i<nEvents; i++)
   {
-    if(i%10000==0) cout << "Working on eventNumber " << i << endl;
+    //if(i%10000==0) cout << "Working on eventNumber " << i << endl;
+    if(i%500==0) cout << "Working on eventNumber " << i << endl;
 
     chain->Clear();
     int iret = chain->Make(i);

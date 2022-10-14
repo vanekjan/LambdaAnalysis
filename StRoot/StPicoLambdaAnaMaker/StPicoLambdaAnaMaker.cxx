@@ -35,6 +35,7 @@ int StPicoLambdaAnaMaker::InitHF() {
 
   if(isMakerMode() == StPicoHFMaker::kAnalyze)
   {
+  /*
     mOutList->Add(new TH1F("h_piTPC","h_piTPC",100,0,10));
     mOutList->Add(new TH1F("h_kTPC","h_kTPC",100,0,10));
     mOutList->Add(new TH1F("h_pTPC","h_pTPC",100,0,10));
@@ -65,7 +66,7 @@ int StPicoLambdaAnaMaker::InitHF() {
 
     mOutList->Add(new TH2F("h_dedx","h_dedx", 100, 0, 10, 100, 0, 10));
     mOutList->Add(new TH2F("h_OneOverBeta", "h_OneOverBeta", 100, 0, 10, 100, 0, 4));
-
+*/
 
     mOutFileBaseName = mOutFileBaseName.ReplaceAll(".root", "");
 
@@ -224,7 +225,7 @@ int StPicoLambdaAnaMaker::MakeHF() {
     analyzeCandidates();
   
 
-
+/*
     //QA and TOF matching histograms
     TH1F *h_piTPC = static_cast<TH1F*>(mOutList->FindObject("h_piTPC"));
     TH1F *h_kTPC = static_cast<TH1F*>(mOutList->FindObject("h_kTPC"));
@@ -391,6 +392,7 @@ int StPicoLambdaAnaMaker::MakeHF() {
 
 
     } // .. end tracks loop
+*/ //end comment TOF histograms
 
   }// end if (isMakerMode() == StPicoHFMaker::kAnalyze)
   
@@ -467,11 +469,30 @@ int StPicoLambdaAnaMaker::createQA()
 int StPicoLambdaAnaMaker::createCandidates() {
   // Creating candidates for Lambda decay
   // Lambda -> p pi- decay
+  
+  //cout<<"start createCandidates"<<endl;
 
   for (unsigned short idxPion = 0; idxPion < mIdxPicoPions.size(); ++idxPion)
   {
     StPicoTrack const *pion = mPicoDst->track(mIdxPicoPions[idxPion]);
     // -- Pion selection
+    
+    //check that pion has TOF info here to speed up the code
+    float piBetaBase = -1;
+
+    piBetaBase = mHFCuts->getTofBetaBase(pion, mPicoDst->event()->bField());
+
+    //get beta of track from TOF, if TOF information is available          
+    int pi_hasTOFinfo = 0;
+
+    if(!isnan(piBetaBase) && piBetaBase > 0)
+    {
+      pi_hasTOFinfo = 1;
+    }
+
+    if( mHFCuts->requireStrictTOF() && pi_hasTOFinfo == 0 ) continue; //strict TOF matching for pions, turned on/off in run macro
+    
+    
 
     for (unsigned short idxProton = 0; idxProton < mIdxPicoProtons.size(); ++idxProton)
     {
@@ -507,6 +528,8 @@ int StPicoLambdaAnaMaker::createCandidates() {
 
 //end for (unsigned short idxPion2 = idxPion+1; idxPion2 < mIdxPicoPions.size(); ++idxPion2)
   } //end for (unsigned short idxPion = 0; idxPion < mIdxPicoPions.size(); ++idxPion)
+  
+  //cout<<"done createCandidates"<<endl;
 
   return kStOK;
 }
@@ -514,6 +537,7 @@ int StPicoLambdaAnaMaker::createCandidates() {
 // _________________________________________________________
 int StPicoLambdaAnaMaker::analyzeCandidates() {
 
+  //cout<<"start analyzeCandidates"<<endl;
   // --- Analyze previously constructed pairs and save to ntuple
   // -- Decay channel1
   TClonesArray const * aCandidates= mPicoHFEvent->aHFSecondaryVertices();
@@ -561,7 +585,8 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
         p2_hasTOFinfo = 1;
       }
 
-      if( mHFCuts->requireStrictTOF() && p2_hasTOFinfo == 0 ) continue; //strict TOF matching for pions, turned on/off in run macro
+      //now checked in createCandidates()
+      //if( mHFCuts->requireStrictTOF() && p2_hasTOFinfo == 0 ) continue; //strict TOF matching for pions, turned on/off in run macro
       
       // ---
       // Saving to TTree
@@ -614,6 +639,8 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
 
     } // for (unsigned int idx = 0; idx <  mPicoHFEvent->nHFSecondaryVertices(); ++idx) {
   }
+  
+  //cout<<"done analyzeCandidates"<<endl;
 
   return kStOK;
 }

@@ -1,3 +1,4 @@
+get_file_list.pl -keys path,filename -cond production=P20ic,library=SL22b,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=nfs -limit 0 -delim / -distinct > pico.list
 
 get_file_list.pl -keys path,filename -cond production=P20ic,library=SL21d,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
 
