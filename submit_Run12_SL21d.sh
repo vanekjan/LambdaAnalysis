@@ -1,10 +1,8 @@
 #!/bin/bash
 
-#max. line is 22173 in file list SL21d
-#max. line is 444695 in file list SL20d
-#to test submit
+#max. line is 70025 in Run12 file list SL21d
 
-sed -n '1,10000 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
+sed -n '50001,70025 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 
