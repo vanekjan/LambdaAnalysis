@@ -214,9 +214,24 @@ bool StPicoCutsBase::isGoodRun(StPicoEvent const * const picoEvent) const {
 bool StPicoCutsBase::isGoodTrigger(StPicoEvent const * const picoEvent) const {
   // -- is good trigger in list of good triggerIds
 
+  //check if the event cotains any triggerId we dont't want first
+  for(std::vector<unsigned int>::const_iterator iter = mVecBadTriggerIdList.begin(); iter != mVecBadTriggerIdList.end(); ++iter)
+  {
+    if(picoEvent->isTrigger(*iter))
+    {
+      return false;
+    }  
+  }
+
+  //now check for triggerIds we want
   for(std::vector<unsigned int>::const_iterator iter = mVecTriggerIdList.begin(); iter != mVecTriggerIdList.end(); ++iter)
-    if(picoEvent->isTrigger(*iter)) 
+  {
+    if(picoEvent->isTrigger(*iter))
+    {
       return true;
+    }  
+  }
+   
 
   return false;
 }

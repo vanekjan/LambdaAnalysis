@@ -27,11 +27,13 @@ class StChain;
 
 StChain *chain;
 
+//triggerSetup = 0 - MB, 1 - JP2
 void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *outputFile="outputBaseName",  
     const unsigned int makerMode = 0 /*kAnalyze*/,
     const Char_t *badRunListFileName = "picoList_bad_MB.list", const Char_t *treeName = "picoHFtree",
     const Char_t *productionBasePath = "/star/data100/reco/AuAu_200_production_2016/ReversedFullField/P16ij/2016",
-    const unsigned int decayChannel = 0 /* kChannel0 */, string SL_version = "SL20c") 
+    const unsigned int decayChannel = 0 /* kChannel0 */, string SL_version = "SL20c",
+    const int triggerSetup = 0)
 { 
   // -- Check STAR Library. Please set SL_version to the original star library used in the production 
   //    from http://www.star.bnl.gov/devcgi/dbProdOptionRetrv.pl
@@ -126,12 +128,40 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setCutVzMax(30.);
   hfCuts->setCutVzVpdVzMax(100.); //original 3 - now open
 
-  //Run12 pp200GeV triggers
-  hfCuts->addTriggerId(370001); //VPDMB
-  hfCuts->addTriggerId(370011); //VPDMB-nosmd
+  //MB
+  if(triggerSetup == 0)
+  {
+    //Run12 pp200GeV triggers
+    hfCuts->addTriggerId(370001); //VPDMB
+    hfCuts->addTriggerId(370011); //VPDMB-nosmd
 
-  //Run17 pp510GeV triggers
-  hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)
+    //Run17 pp510GeV triggers
+    hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)  
+  }
+  //JP
+  else if(triggerSetup == 1)
+  {
+    //Run12 pp200GeV triggers
+    //hfCuts->addTriggerId(370611); // JP1
+    hfCuts->addTriggerId(370621); // JP2
+    
+    //Run12 pp200GeV triggers we don't want
+    hfCuts->addBadTriggerId(370001); //VPDMB
+    hfCuts->addBadTriggerId(370011); //VPDMB-nosmd
+    
+
+    //Run17 pp510GeV triggers
+    hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)
+
+    //Run17 pp510GeV triggers we don't want
+    hfCuts->addBadTriggerId(570401); // JP2
+  
+  }
+  else
+  {
+    cout<<"Wrong trigger setup in runPicoLambdaAnaMaker!"<<endl;
+    return;  
+  }
 
   hfCuts->setCutNHitsFitMin(20); //for analysis (TTree)
   hfCuts->setCutNHitsFitMinHist(20); //for histograms
@@ -208,7 +238,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setCutTPCNSigmaHadronHist(1.0, 3); //3 = proton
 
   //TOF setters, need to set pt range as well
-  hfCuts->setCutRequireStrictTOF(true); // setter for strict TOF for pions (or second particle in pair in general)
+  hfCuts->setCutRequireStrictTOF(false); // setter for strict TOF for pions (or second particle in pair in general)
 
   hfCuts->setCutTOFDeltaOneOverBeta(0.03, StHFCuts::kProton);
   hfCuts->setCutPtotRangeHybridTOF(0.15,20.0,StHFCuts::kProton); 
@@ -225,8 +255,8 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   for (Int_t i=0; i<nEvents; i++)
   {
-    //if(i%10000==0) cout << "Working on eventNumber " << i << endl;
-    if(i%500==0) cout << "Working on eventNumber " << i << endl;
+    if(i%10000==0) cout << "Working on eventNumber " << i << endl;
+    //if(i%500==0) cout << "Working on eventNumber " << i << endl;
 
     chain->Clear();
     int iret = chain->Make(i);

@@ -135,6 +135,7 @@ class StPicoCutsBase : public TNamed
 
   void setBadRunListFileName(const char* fileName);
   void addTriggerId(unsigned int triggerId);
+  void addBadTriggerId(unsigned int triggerId);
 
   void setCutVxVyErrMax(float f);  
 
@@ -229,6 +230,9 @@ private:
 
   // -- trigger id list
   std::vector<unsigned int> mVecTriggerIdList;
+  
+  //list of triggerIds that we don't want
+  std::vector<unsigned int> mVecBadTriggerIdList;
 
   // -- event cuts
   //float mVxErrMax;
@@ -267,6 +271,7 @@ private:
 
 inline void StPicoCutsBase::setBadRunListFileName(const char* fileName) { mBadRunListFileName = fileName; }
 inline void StPicoCutsBase::addTriggerId(unsigned int triggerId) {mVecTriggerIdList.push_back(triggerId);}
+inline void StPicoCutsBase::addBadTriggerId(unsigned int triggerId) {mVecBadTriggerIdList.push_back(triggerId);}
 
 inline void StPicoCutsBase::setCutVzMax(float f)              { mVzMax            = f; }
 inline void StPicoCutsBase::setCutVzVpdVzMax(float f)         { mVzVpdVzMax       = f; }
