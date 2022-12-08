@@ -240,6 +240,8 @@ bool StPicoCutsBase::isGoodTrigger(StPicoEvent const * const picoEvent) const {
 bool StPicoCutsBase::isGoodTrack(StPicoTrack const * const trk) const {
   // -- require at least one hit on every layer of PXL and (IST or SSD).
   return ((!mRequireHFT || trk->isHFTTrack()) && 
+          hasGoodEta(trk->gMom()) &&
+          trk->gPt() > mPtMin &&
 	        trk->nHitsFit() >= mNHitsFitMin &&
           (float)trk->nHitsFit()/(float)trk->nHitsMax() >= mNHitsFitnHitsMax  );
 }
@@ -300,8 +302,13 @@ bool StPicoCutsBase::hasGoodTPCnSigma(StPicoTrack const *trk, int pidFlag) const
 
   return ( nSigma < mTPCNSigmaMax[pidFlag] );
 }
-
 // _________________________________________________________
+
+bool StPicoCutsBase::hasGoodEta(TVector3 const & trkMom) const {
+	return ( fabs(trkMom.PseudoRapidity()) <= mEta );
+}
+// _________________________________________________________
+
 bool StPicoCutsBase::isTOFHadronPID(StPicoTrack const *trk, float const & tofBeta, int pidFlag) const {
   // -- check for good hadron in TOF PID
   //    use for 

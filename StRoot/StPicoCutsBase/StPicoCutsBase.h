@@ -91,6 +91,8 @@ class StPicoCutsBase : public TNamed
 	bool hasGoodTPCnSigmaPion(StPicoTrack const *trk) const;
 	bool hasGoodTPCnSigmaKaon(StPicoTrack const *trk) const;
 	bool hasGoodTPCnSigmaProton(StPicoTrack const *trk) const;
+	
+	bool hasGoodEta(TVector3 const & trkMom) const;
 
   // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --   
   // -- TOF PID
@@ -147,11 +149,14 @@ class StPicoCutsBase : public TNamed
   void setCutNHitsFitMin(int i);
   void setCutRequireHFT(bool b);
   void setCutNHitsFitnHitsMax(float f);
+  
+  void setCutEta(float eta);
 
   void setCutPrimaryDCAtoVtxMax(float f);
 
   // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
+  void setCutPtMin(float pT);
   void setCutPtRange(float min, float max, int pidFlag);
   void setCutDcaMin(float min, int pidFlag);
   void setCutDcaMinTertiary(float min, int pidFlag);
@@ -245,11 +250,13 @@ private:
   int   mNHitsFitMin;
   bool  mRequireHFT; 
 	float mNHitsFitnHitsMax;
-          
+	
+	float mEta;          
 
   float mPrimaryDCAtoVtxMax;         // used for primary selection for TOF Beta recalculation
 
   // -- acceptance - per particle type [ePicoPID]
+  float mPtMin;
   float mPtRange[kPicoPIDMax][2];
 
   // -- dca to primary vertex - per particle type [ePicoPID]
@@ -280,7 +287,11 @@ inline void StPicoCutsBase::setCutNHitsFitMin(int i)          { mNHitsFitMin    
 inline void StPicoCutsBase::setCutRequireHFT(bool b)          { mRequireHFT       = b; }
 inline void StPicoCutsBase::setCutNHitsFitnHitsMax(float f)   { mNHitsFitnHitsMax = f; }
 
+inline void StPicoCutsBase::setCutEta(float eta)              { mEta = eta; } //moved to StPicoCutsBase
+
 inline void StPicoCutsBase::setCutPrimaryDCAtoVtxMax(float f) { mPrimaryDCAtoVtxMax = f; }
+
+inline void StPicoCutsBase::setCutPtMin(float pT)             { mPtMin = pT; }
 
 inline void StPicoCutsBase::setCutPtRange(float min, float max, int pidFlag)            { mPtRange[pidFlag][0] = min; 
                                                                                           mPtRange[pidFlag][1] = max; }

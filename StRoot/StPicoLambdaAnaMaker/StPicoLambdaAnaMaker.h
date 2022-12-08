@@ -147,9 +147,14 @@ private:
 	//event stats
 	Int_t runId, eventId;
   Float_t VzVzVPDmax;
+  
+  //leading and subleading particles
+  Float_t lead_pt, lead_eta, lead_phi;
+  Float_t sublead_pt, sublead_eta, sublead_phi;
 
   //daughter 1
-	Float_t p1_phi, p1_eta, p1_pt, p1_dca, p1_ch;
+	Float_t p1_phi, p1_eta, p1_pt, p1_dca; 
+	Int_t p1_ch;
   Int_t p1_hasTOFinfo;
 
 

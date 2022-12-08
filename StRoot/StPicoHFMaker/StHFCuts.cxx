@@ -137,10 +137,11 @@ bool StHFCuts::hasGoodNHitsFitMinHist(StPicoTrack const *track) const {
 }
 
 // _________________________________________________________
+/* //moved to StPicoCutsBase
 bool StHFCuts::hasGoodEta(TVector3 const & trkMom) const {
 	return ( fabs(trkMom.PseudoRapidity())<= mEta );
 }
-
+*/
 // _________________________________________________________
 void StHFCuts::setCutTPCNSigmaHadronHist(float nSigHadr, int hadrFlag) {
 

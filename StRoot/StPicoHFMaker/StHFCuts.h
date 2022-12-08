@@ -53,7 +53,7 @@ class StHFCuts : public StPicoCutsBase
 //---------MY CUTS----------------------------------------------------------
 
 	bool hasGoodNHitsFitMinHist(StPicoTrack const *track)	const;
-	bool hasGoodEta(TVector3 const & trkMom) const;
+	//bool hasGoodEta(TVector3 const & trkMom) const; //moved to StPicoCutsBase
 	bool hasGoodNSigmaHist(StPicoTrack const *track, int hadrFlag) const;
 	bool hasGoodTripletdV0Max(StHFTriplet const &triplet) const;
 	bool hasGoodPtQA(StPicoTrack const *track) const;
@@ -96,7 +96,7 @@ class StHFCuts : public StPicoCutsBase
 //----MY SETTERS------------------------------------------------------------------------------------------
 
 	void setCutNHitsFitMinHist(int i) {mNHitsFitMinHist = i;}
-	void setCutEta(float eta) { mEta = eta; }
+	//void setCutEta(float eta) { mEta = eta; } //moved to StPicoCutsBase
 	void setCutTPCNSigmaHadronHist(float nSigHadr, int hadrFlag);
 	void setCutTripletdV0Max(float dV0MaxSetCut) {mdV0MaxCut = dV0MaxSetCut;}
   void setCutTripletdV0MaxHighPt(float dV0MaxSetCut) {mdV0MaxCut_02 = dV0MaxSetCut;}
@@ -158,7 +158,7 @@ class StHFCuts : public StPicoCutsBase
 	//---MY VARIABLES------------------------
 	
 	int mNHitsFitMinHist;
-	float mEta;
+	//float mEta; //moved to StPicoCutsBase
 
 	float mNSigPionHist;
   float mNSigKaonHist;

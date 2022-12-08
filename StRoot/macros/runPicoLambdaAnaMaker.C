@@ -126,7 +126,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
   // -- ADD USER CUTS HERE ----------------------------
   hfCuts->setCutVzMax(30.);
-  hfCuts->setCutVzVpdVzMax(100.); //original 3 - now open
+  hfCuts->setCutVzVpdVzMax(1e6); //original 3 - now open
 
   //MB
   if(triggerSetup == 0)
@@ -176,6 +176,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
 
 
   hfCuts->setCutEta(1.);
+  hfCuts->setCutPtMin(0.15); //global min. pT cut
 
   hfCuts->setCutDcaMin(0.3,StHFCuts::kPion);
   //hfCuts->setCutDcaMin(0.01,StHFCuts::kKaon); 
@@ -189,9 +190,9 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   dcaDaughters12Max = 1.;
 
   decayLengthMin = 2.;
-  decayLengthMax = 50.;
+  decayLengthMax = 25.;
 
-  cosThetaMin = 0.99;
+  cosThetaMin = 0.996;
 
   massMin = 0.9;
   massMax = 1.3;
@@ -208,9 +209,9 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   dcaDaughtersMax_K0s = 1.;
 
   decayLengthMin_K0s = 0.5;
-  decayLengthMax_K0s = 50.;
+  decayLengthMax_K0s = 25.;
 
-  cosThetaMin_K0s = 0.99;
+  cosThetaMin_K0s = 0.996;
 
   massMin_K0s = 0.45;
   massMax_K0s = 0.55;

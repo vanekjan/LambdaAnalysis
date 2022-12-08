@@ -46,41 +46,50 @@ int StPicoLambdaAnaMaker::InitHF() {
     //---Set TTree branches------------------------------------------------------------------------------
 
     //event
-    ntp_Lambda->Branch("runId", &runId, "runId/I");            //Int_t runId
+    //ntp_Lambda->Branch("runId", &runId, "runId/I");            //Int_t runId
     ntp_Lambda->Branch("eventId", &eventId, "eventId/I");       //Int_t eventId
-    ntp_Lambda->Branch("VzVzVPDmax", &VzVzVPDmax, "VzVzVPDmax/F"); //VzVzVPDmax
+    //ntp_Lambda->Branch("VzVzVPDmax", &VzVzVPDmax, "VzVzVPDmax/F"); //VzVzVPDmax
+    
+    //leading and subleading particles
+    ntp_Lambda->Branch("lead_pt", &lead_pt, "lead_pt/F");               //Float_t p1_pt
+    ntp_Lambda->Branch("lead_phi", &lead_phi, "lead_phi/F");             //Float_t p1_phi
+    ntp_Lambda->Branch("lead_eta", &lead_eta, "lead_eta/F");             //Float_t p1_eta
+    
+    ntp_Lambda->Branch("sublead_pt", &sublead_pt, "sublead_pt/F");               //Float_t p1_pt
+    ntp_Lambda->Branch("sublead_phi", &sublead_phi, "sublead_phi/F");             //Float_t p1_phi
+    ntp_Lambda->Branch("sublead_eta", &sublead_eta, "sublead_eta/F");             //Float_t p1_eta
 
     //proton
     ntp_Lambda->Branch("p1_pt", &p1_pt, "p1_pt/F");               //Float_t p1_pt
     ntp_Lambda->Branch("p1_phi", &p1_phi, "p1_phi/F");             //Float_t p1_phi
     ntp_Lambda->Branch("p1_eta", &p1_eta, "p1_eta/F");             //Float_t p1_eta
-    ntp_Lambda->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
-    ntp_Lambda->Branch("p1_ch", &p1_ch, "p1_ch/F");               //Float_t p1_ch
+    //ntp_Lambda->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
+    ntp_Lambda->Branch("p1_ch", &p1_ch, "p1_ch/I");               //Float_t p1_ch
     ntp_Lambda->Branch("p1_hasTOFinfo", &p1_hasTOFinfo, "p1_hasTOFinfo/I");   //Float_t p1_hasTOFinfo
 
     //pion
     ntp_Lambda->Branch("p2_pt", &p2_pt, "p2_pt/F");               //Float_t p2_pt
     ntp_Lambda->Branch("p2_phi", &p2_phi, "p2_phi/F");             //Float_t p2_phi
     ntp_Lambda->Branch("p2_eta", &p2_eta, "p2_eta/F");             //Float_t p2_eta
-    ntp_Lambda->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
-    ntp_Lambda->Branch("p2_ch", &p2_ch, "p2_ch/F");               //Float_t p2_ch
+    //ntp_Lambda->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
+    //ntp_Lambda->Branch("p2_ch", &p2_ch, "p2_ch/F");               //Float_t p2_ch
     ntp_Lambda->Branch("p2_hasTOFinfo", &p2_hasTOFinfo, "p2_hasTOFinfo/I");   //Float_t p2_hasTOFinfo
 
     //pair
     ntp_Lambda->Branch("pair_charge", &pair_charge, "pair_charge/I");      //Int_t charge
-    ntp_Lambda->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
-    ntp_Lambda->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
-    ntp_Lambda->Branch("pair_cosThetaStar", &pair_cosThetaStar, "pair_cosThetaStar/F");   //Float_t pair_cosThetaStar
-    ntp_Lambda->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
+    //ntp_Lambda->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
+    //ntp_Lambda->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
+    //ntp_Lambda->Branch("pair_cosThetaStar", &pair_cosThetaStar, "pair_cosThetaStar/F");   //Float_t pair_cosThetaStar
+    //ntp_Lambda->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
     ntp_Lambda->Branch("pair_phi", &pair_phi, "pair_phi/F");      //Float_t pair_phi
     ntp_Lambda->Branch("pair_eta", &pair_eta, "pair_eta/F");      //Float_t pair_eta
     ntp_Lambda->Branch("pair_pt", &pair_pt, "pair_pt/F");        //Float_t pair_pt
     ntp_Lambda->Branch("pair_mass", &pair_mass, "pair_mass/F");    //Float_t pair_mass
 
-    ntp_Lambda->Branch("thetaProdPlane", &thetaProdPlane, "thetaProdPlane/F");      //Int_t thetaProdPlane
-    ntp_Lambda->Branch("prodPlane_x", &prodPlane_x, "prodPlane_x/F");      //Int_t prodPlane_x
-    ntp_Lambda->Branch("prodPlane_y", &prodPlane_y, "prodPlane_y/F");      //Int_t prodPlane_y
-    ntp_Lambda->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
+    //ntp_Lambda->Branch("thetaProdPlane", &thetaProdPlane, "thetaProdPlane/F");      //Int_t thetaProdPlane
+    //ntp_Lambda->Branch("prodPlane_x", &prodPlane_x, "prodPlane_x/F");      //Int_t prodPlane_x
+    //ntp_Lambda->Branch("prodPlane_y", &prodPlane_y, "prodPlane_y/F");      //Int_t prodPlane_y
+    //ntp_Lambda->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
 
     //-----------------------Set branches END------------------------------------------------------------------------------
 
@@ -92,41 +101,50 @@ int StPicoLambdaAnaMaker::InitHF() {
     //---Set TTree branches------------------------------------------------------------------------------
 
     //event
-    ntp_K0s->Branch("runId", &runId, "runId/I");            //Int_t runId
+    //ntp_K0s->Branch("runId", &runId, "runId/I");            //Int_t runId
     ntp_K0s->Branch("eventId", &eventId, "eventId/I");       //Int_t eventId
-    ntp_K0s->Branch("VzVzVPDmax", &VzVzVPDmax, "VzVzVPDmax/F"); //VzVzVPDmax
+    //ntp_K0s->Branch("VzVzVPDmax", &VzVzVPDmax, "VzVzVPDmax/F"); //VzVzVPDmax
+    
+    //leading and subleading particles
+    ntp_K0s->Branch("lead_pt", &lead_pt, "lead_pt/F");               //Float_t p1_pt
+    ntp_K0s->Branch("lead_phi", &lead_phi, "lead_phi/F");             //Float_t p1_phi
+    ntp_K0s->Branch("lead_eta", &lead_eta, "lead_eta/F");             //Float_t p1_eta
+    
+    ntp_K0s->Branch("sublead_pt", &sublead_pt, "sublead_pt/F");               //Float_t p1_pt
+    ntp_K0s->Branch("sublead_phi", &sublead_phi, "sublead_phi/F");             //Float_t p1_phi
+    ntp_K0s->Branch("sublead_eta", &sublead_eta, "sublead_eta/F");             //Float_t p1_eta
 
     //Pion 1
     ntp_K0s->Branch("p1_pt", &p1_pt, "p1_pt/F");               //Float_t p1_pt
     ntp_K0s->Branch("p1_phi", &p1_phi, "p1_phi/F");             //Float_t p1_phi
     ntp_K0s->Branch("p1_eta", &p1_eta, "p1_eta/F");             //Float_t p1_eta
-    ntp_K0s->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
-    ntp_K0s->Branch("p1_ch", &p1_ch, "p1_ch/F");               //Float_t p1_ch
+    //ntp_K0s->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
+    ntp_K0s->Branch("p1_ch", &p1_ch, "p1_ch/I");               //Int_t p1_ch
     ntp_K0s->Branch("p1_hasTOFinfo", &p1_hasTOFinfo, "p1_hasTOFinfo/I");   //Float_t p1_hasTOFinfo
 
     //pion 2
     ntp_K0s->Branch("p2_pt", &p2_pt, "p2_pt/F");               //Float_t p2_pt
     ntp_K0s->Branch("p2_phi", &p2_phi, "p2_phi/F");             //Float_t p2_phi
     ntp_K0s->Branch("p2_eta", &p2_eta, "p2_eta/F");             //Float_t p2_eta
-    ntp_K0s->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
-    ntp_K0s->Branch("p2_ch", &p2_ch, "p2_ch/F");               //Float_t p2_ch
+    //ntp_K0s->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
+    //ntp_K0s->Branch("p2_ch", &p2_ch, "p2_ch/F");               //Float_t p2_ch
     ntp_K0s->Branch("p2_hasTOFinfo", &p2_hasTOFinfo, "p2_hasTOFinfo/I");   //Float_t p2_hasTOFinfo
 
     //pair
     ntp_K0s->Branch("pair_charge", &pair_charge, "pair_charge/I");      //Int_t charge
-    ntp_K0s->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
-    ntp_K0s->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
-    ntp_K0s->Branch("pair_cosThetaStar", &pair_cosThetaStar, "pair_cosThetaStar/F");   //Float_t pair_cosThetaStar
-    ntp_K0s->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
+    //ntp_K0s->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
+    //ntp_K0s->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
+    //ntp_K0s->Branch("pair_cosThetaStar", &pair_cosThetaStar, "pair_cosThetaStar/F");   //Float_t pair_cosThetaStar
+    //ntp_K0s->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
     ntp_K0s->Branch("pair_phi", &pair_phi, "pair_phi/F");      //Float_t pair_phi
     ntp_K0s->Branch("pair_eta", &pair_eta, "pair_eta/F");      //Float_t pair_eta
     ntp_K0s->Branch("pair_pt", &pair_pt, "pair_pt/F");        //Float_t pair_pt
     ntp_K0s->Branch("pair_mass", &pair_mass, "pair_mass/F");    //Float_t pair_mass
 
-    ntp_K0s->Branch("thetaProdPlane", &thetaProdPlane, "thetaProdPlane/F");      //Int_t thetaProdPlane
-    ntp_K0s->Branch("prodPlane_x", &prodPlane_x, "prodPlane_x/F");      //Int_t prodPlane_x
-    ntp_K0s->Branch("prodPlane_y", &prodPlane_y, "prodPlane_y/F");      //Int_t prodPlane_y
-    ntp_K0s->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
+    //ntp_K0s->Branch("thetaProdPlane", &thetaProdPlane, "thetaProdPlane/F");      //Int_t thetaProdPlane
+    //ntp_K0s->Branch("prodPlane_x", &prodPlane_x, "prodPlane_x/F");      //Int_t prodPlane_x
+    //ntp_K0s->Branch("prodPlane_y", &prodPlane_y, "prodPlane_y/F");      //Int_t prodPlane_y
+    //ntp_K0s->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
 
     //-----------------------Set branches END------------------------------------------------------------------------------
   }
@@ -482,6 +500,17 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
 
   float ZDCx = mPicoDst->event()->ZDCx();
   float BBCx = mPicoDst->event()->BBCx();
+  
+  StPicoTrack const *lead_track = mPicoDst->track(mIdLeadingPart);
+  StPicoTrack const *sublead_track = mPicoDst->track(mIdSubLeadingPart);
+  
+  lead_pt = lead_track->gPt();
+  lead_eta = lead_track->gMom().PseudoRapidity();
+  lead_phi = lead_track->gMom().Phi();
+  
+  sublead_pt = sublead_track->gPt();
+  sublead_eta = sublead_track->gMom().PseudoRapidity();
+  sublead_phi = sublead_track->gMom().Phi();
 
   if( mPicoHFEvent->nHFSecondaryVertices() > 0 )
   {
@@ -542,7 +571,7 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
       //eventId and runId common for all particles in the triplet
       p2_pt = part2->gPt();
       p2_phi = part2->gMom().Phi();
-      p2_eta = part2->gMom(mPrimVtx,mBField).PseudoRapidity();      
+      p2_eta = part2->gMom(mPrimVtx,mBField).PseudoRapidity(); 
       p2_dca = part2->gDCAxy(mPrimVtx.x(), mPrimVtx.y());
       p2_ch = part2->charge();
 

@@ -210,16 +210,49 @@ Int_t StPicoHFMaker::Make() {
   
   Int_t iReturn = kStOK;
 
-  if (setupEvent()) {
+  if (setupEvent())
+  {
+    float pT_leading_last = -1;
+    float pT_subleading_last = -1;
+  
     UInt_t nTracks = mPicoDst->numberOfTracks();
 
     // -- Fill vectors of particle types
-    if (mMakerMode == StPicoHFMaker::kWrite || mMakerMode == StPicoHFMaker::kAnalyze || mMakerMode == StPicoHFMaker::kQA) {
-      for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack) {
+    if (mMakerMode == StPicoHFMaker::kWrite || mMakerMode == StPicoHFMaker::kAnalyze || mMakerMode == StPicoHFMaker::kQA)
+    {
+      for (unsigned short iTrack = 0; iTrack < nTracks; ++iTrack)
+      {
 	      StPicoTrack* trk = mPicoDst->track(iTrack);
 
         if (!trk || !mHFCuts->isGoodTrack(trk)) continue; //check nHitsFit and nHitsFit/nHitsMax cuts
-
+        
+        //find Id of leading and subleading tracks
+        if(pT_leading_last == -1)
+        {
+          pT_leading_last = trk->gPt();
+          pT_subleading_last = 0;
+          
+          mIdLeadingPart = iTrack;
+          mIdSubLeadingPart = 0;        
+        }
+        else
+        {
+          if( trk->gPt() > pT_leading_last )
+          {
+            mIdLeadingPart = iTrack;
+            
+            pT_leading_last = trk->gPt();          
+          }
+          else if( trk->gPt() > pT_subleading_last )
+          {
+            mIdSubLeadingPart = iTrack;
+            
+            pT_subleading_last = trk->gPt();          
+          }     
+        }
+        //__________________________________________________
+        
+        //fill vectors of pions, kaons, and protons
         if (isPion(trk))   mIdxPicoPions.push_back(iTrack);   // isPion method to be implemented by daughter class
         if (isKaon(trk))   mIdxPicoKaons.push_back(iTrack);   // isKaon method to be implemented by daughter class
         if (isProton(trk)) mIdxPicoProtons.push_back(iTrack); // isProton method to be implemented by daughter class

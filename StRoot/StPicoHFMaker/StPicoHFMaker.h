@@ -134,6 +134,9 @@ class StPicoHFMaker : public StMaker
     std::vector<unsigned short> mIdxPicoPions;
     std::vector<unsigned short> mIdxPicoKaons;
     std::vector<unsigned short> mIdxPicoProtons;
+    
+    unsigned int mIdLeadingPart;
+    unsigned int mIdSubLeadingPart;
 
   private:
     void  resetEvent();
