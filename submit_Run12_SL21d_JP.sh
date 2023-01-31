@@ -12,10 +12,10 @@ sed -n '50001,70025 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.l
 path=`pwd -P`
 path=$( echo $path | sed 's|//|/|g' )
 
-#trigger = 0 - MB
-trigger=0
+#trigger = 1 - JP
+trigger=1
 
-echo executing submitPicoHFMaker.csh f0r picoList_test.list inside $path
+echo executing submitPicoHFMaker_Run12_SL21d.csh f0r picoList_submit.list inside $path
 
 starver SL21d
 
@@ -23,7 +23,7 @@ starver SL21d
 ./compile_SL21d.csh
 
 #for list generated directly by sed ad the top of this macro
-csh starSubmit/submitPicoHFMaker_Run12_SL21d.csh $path picoList_submit.list
+csh starSubmit/submitPicoHFMaker_Run12_SL21d.csh $path picoList_submit.list $trigger
 
 #for pre-generated sublists
 #csh starSubmit/submitPicoHFMaker.csh $path ./picoLists/sublists/picoList_test_08.list
