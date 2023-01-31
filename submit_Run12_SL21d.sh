@@ -23,7 +23,7 @@ starver SL21d
 ./compile_SL21d.csh
 
 #for list generated directly by sed ad the top of this macro
-csh starSubmit/submitPicoHFMaker_Run12_SL21d.csh $path picoList_submit.list
+csh starSubmit/submitPicoHFMaker_Run12_SL21d.csh $path picoList_submit.list $trigger
 
 #for pre-generated sublists
 #csh starSubmit/submitPicoHFMaker.csh $path ./picoLists/sublists/picoList_test_08.list
