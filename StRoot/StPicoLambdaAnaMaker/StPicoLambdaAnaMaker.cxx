@@ -63,7 +63,7 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_Lambda->Branch("p1_pt", &p1_pt, "p1_pt/F");               //Float_t p1_pt
     ntp_Lambda->Branch("p1_phi", &p1_phi, "p1_phi/F");             //Float_t p1_phi
     ntp_Lambda->Branch("p1_eta", &p1_eta, "p1_eta/F");             //Float_t p1_eta
-    //ntp_Lambda->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
+    ntp_Lambda->Branch("p1_dca", &p1_dca, "p1_dca/F");               //Float_t p1_dca
     ntp_Lambda->Branch("p1_ch", &p1_ch, "p1_ch/I");               //Float_t p1_ch
     ntp_Lambda->Branch("p1_hasTOFinfo", &p1_hasTOFinfo, "p1_hasTOFinfo/I");   //Float_t p1_hasTOFinfo
 
@@ -71,16 +71,16 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_Lambda->Branch("p2_pt", &p2_pt, "p2_pt/F");               //Float_t p2_pt
     ntp_Lambda->Branch("p2_phi", &p2_phi, "p2_phi/F");             //Float_t p2_phi
     ntp_Lambda->Branch("p2_eta", &p2_eta, "p2_eta/F");             //Float_t p2_eta
-    //ntp_Lambda->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
+    ntp_Lambda->Branch("p2_dca", &p2_dca, "p2_dca/F");               //Float_t p2_dca
     //ntp_Lambda->Branch("p2_ch", &p2_ch, "p2_ch/F");               //Float_t p2_ch
     ntp_Lambda->Branch("p2_hasTOFinfo", &p2_hasTOFinfo, "p2_hasTOFinfo/I");   //Float_t p2_hasTOFinfo
 
     //pair
     ntp_Lambda->Branch("pair_charge", &pair_charge, "pair_charge/I");      //Int_t charge
-    //ntp_Lambda->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
-    //ntp_Lambda->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
+    ntp_Lambda->Branch("pair_DCAdaughters", &pair_DCAdaughters, "pair_DCAdaughters/F");      //Int_t pair_DCAdaughters
+    ntp_Lambda->Branch("pair_theta", &pair_theta, "pair_theta/F");   //Float_t pair_theta
     //ntp_Lambda->Branch("pair_cosThetaStar", &pair_cosThetaStar, "pair_cosThetaStar/F");   //Float_t pair_cosThetaStar
-    //ntp_Lambda->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
+    ntp_Lambda->Branch("pair_decayL", &pair_decayL, "pair_decayL/F");  //Float_t pair_decayL
     ntp_Lambda->Branch("pair_phi", &pair_phi, "pair_phi/F");      //Float_t pair_phi
     ntp_Lambda->Branch("pair_eta", &pair_eta, "pair_eta/F");      //Float_t pair_eta
     ntp_Lambda->Branch("pair_pt", &pair_pt, "pair_pt/F");        //Float_t pair_pt
@@ -147,6 +147,9 @@ int StPicoLambdaAnaMaker::InitHF() {
     //ntp_K0s->Branch("prodPlane_z", &prodPlane_z, "prodPlane_z/F");      //Int_t prodPlane_z
 
     //-----------------------Set branches END------------------------------------------------------------------------------
+   
+    
+    
   }
 
   if(isMakerMode() == StPicoHFMaker::kQA)
@@ -179,6 +182,8 @@ int StPicoLambdaAnaMaker::InitHF() {
     mOutList->Add(new TH2F("h_piTOFbeta","h_piTOFbeta",500,0,10, 500, 0, 5));
     mOutList->Add(new TH2F("h_kTOFbeta","h_kTOFbeta",500,0,10, 500, 0, 5));
     mOutList->Add(new TH2F("h_pTOFbeta","h_pTOFbeta",500,0,10, 500, 0, 5));
+    
+    
 
   }
 
@@ -279,6 +284,8 @@ int StPicoLambdaAnaMaker::createQA()
   TH2F *h_piTOFbeta = static_cast<TH2F*>(mOutList->FindObject("h_piTOFbeta"));
   TH2F *h_kTOFbeta = static_cast<TH2F*>(mOutList->FindObject("h_kTOFbeta"));
   TH2F *h_pTOFbeta = static_cast<TH2F*>(mOutList->FindObject("h_pTOFbeta"));
+  
+
 
 
 

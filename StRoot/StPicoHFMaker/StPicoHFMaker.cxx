@@ -9,6 +9,7 @@
 
 #include "TLorentzVector.h"
 #include "TVector3.h"
+#include "TH2.h"
 
 #include "StPicoEvent/StPicoDst.h"
 #include "StPicoDstMaker/StPicoDstMaker.h"
@@ -119,6 +120,10 @@ Int_t StPicoHFMaker::Init() {
   // -- initialize histogram class
   //mHFHists = new StHFHists(Form("hfHists_%s",GetName()));
   //mHFHists->init(mOutList,mDecayMode);
+  
+  //add custom QA histograms
+  mOutList->Add(new TH2F("h_dEdx", "h_dEdx", 1000, 0, 10, 1000, 0, 10));
+  mOutList->Add(new TH2F("h_OneOverBeta", "h_OneOverBeta", 1000, 0, 10, 1000, 0, 4));
 
   // -- call method of daughter class
   InitHF();
@@ -214,6 +219,9 @@ Int_t StPicoHFMaker::Make() {
   {
     float pT_leading_last = -1;
     float pT_subleading_last = -1;
+    
+    TH2F *h_dEdx = static_cast<TH2F*>(mOutList->FindObject("h_dEdx"));
+    TH2F *h_OneOverBeta = static_cast<TH2F*>(mOutList->FindObject("h_OneOverBeta"));
   
     UInt_t nTracks = mPicoDst->numberOfTracks();
 
@@ -224,7 +232,22 @@ Int_t StPicoHFMaker::Make() {
       {
 	      StPicoTrack* trk = mPicoDst->track(iTrack);
 
-        if (!trk || !mHFCuts->isGoodTrack(trk)) continue; //check nHitsFit and nHitsFit/nHitsMax cuts
+        if (!trk) continue; 
+        
+        
+        
+        float tofBeta = mHFCuts->getTofBetaBase(trk, mPicoDst->event()->bField());
+        
+        if(!isnan(tofBeta) && tofBeta > 0) 
+        {
+          h_dEdx->Fill(trk->gPtot(), trk->dEdx()); //dEdx in keV/cm, fill for TOF matched tracks to supress pilup background
+          h_OneOverBeta->Fill(trk->gPtot(), 1./tofBeta);
+        }
+        
+        
+        
+        
+        if ( !mHFCuts->isGoodTrack(trk)) continue; //check nHitsFit and nHitsFit/nHitsMax cuts
         
         //find Id of leading and subleading tracks
         if(pT_leading_last == -1)
