@@ -125,7 +125,7 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setBadRunListFileName(badRunListFileName);
 
   // -- ADD USER CUTS HERE ----------------------------
-  hfCuts->setCutVzMax(30.);
+  hfCuts->setCutVzMax(60.); //original 30
   hfCuts->setCutVzVpdVzMax(1e6); //original 3 - now open
 
   //MB
@@ -134,6 +134,18 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
     //Run12 pp200GeV triggers
     hfCuts->addTriggerId(370001); //VPDMB
     hfCuts->addTriggerId(370011); //VPDMB-nosmd
+    
+    
+    //Run15 pp200GeV triggers
+     
+    //st_ssdmb triggers
+    hfCuts->addTriggerId(470011); //VPDMB-5-ssd
+    hfCuts->addTriggerId(470021); //VPDMB-5-ssd
+    hfCuts->addTriggerId(480001); //VPDMB-5-ssd    
+    hfCuts->addTriggerId(490001); //VPDMB-5-ssd
+    hfCuts->addTriggerId(500001); //VPDMB-5-ssd
+    hfCuts->addTriggerId(510009); //VPDMB-5-ssd
+    
 
     //Run17 pp510GeV triggers
     hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)  
@@ -151,10 +163,10 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
     
 
     //Run17 pp510GeV triggers
-    hfCuts->addTriggerId(570001);    // VPDMB-30 (st_physics)
+    hfCuts->addTriggerId(570401); // JP2  
 
     //Run17 pp510GeV triggers we don't want
-    hfCuts->addBadTriggerId(570401); // JP2
+    hfCuts->addBadTriggerId(570001); // VPDMB-30 (st_physics)
   
   }
   else
@@ -178,21 +190,21 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   hfCuts->setCutEta(1.);
   hfCuts->setCutPtMin(0.15); //global min. pT cut
 
-  hfCuts->setCutDcaMin(0.3,StHFCuts::kPion);
+  hfCuts->setCutDcaMin(0.1,StHFCuts::kPion); //original 0.3, loose 0.05
   //hfCuts->setCutDcaMin(0.01,StHFCuts::kKaon); 
-  hfCuts->setCutDcaMin(0.1,StHFCuts::kProton); 
+  hfCuts->setCutDcaMin(0.1,StHFCuts::kProton); //original 0.1, lose 0.05
 
   //-----------lambda selection cuts----------------------------
   float dcaDaughters12Max;
   float decayLengthMin, decayLengthMax;
   float cosThetaMin, massMin, massMax;
 
-  dcaDaughters12Max = 1.;
+  dcaDaughters12Max = 1.; //original 1, loose 2
 
-  decayLengthMin = 2.;
+  decayLengthMin = 0.5; //original 2
   decayLengthMax = 25.;
 
-  cosThetaMin = 0.996;
+  cosThetaMin = 0.995; //original 0.996, loose 0.98 or 0.99
 
   massMin = 0.9;
   massMax = 1.3;
@@ -206,12 +218,12 @@ void runPicoLambdaAnaMaker(const Char_t *inputFile="test.list", const Char_t *ou
   float cosThetaMin_K0s, massMin_K0s, massMax_K0s;
  
   //K0s cuts
-  dcaDaughtersMax_K0s = 1.;
+  dcaDaughtersMax_K0s = 1.; //original 1., loose 2
 
-  decayLengthMin_K0s = 0.5;
+  decayLengthMin_K0s = 0.1; //original 0.5
   decayLengthMax_K0s = 25.;
 
-  cosThetaMin_K0s = 0.996;
+  cosThetaMin_K0s = 0.995; //original 0.996, loose 0.98 or 0.99
 
   massMin_K0s = 0.45;
   massMax_K0s = 0.55;

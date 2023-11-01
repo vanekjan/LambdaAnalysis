@@ -1,7 +1,38 @@
+Run17
 get_file_list.pl -keys path,filename -cond production=P20ic,library=SL22b,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=nfs -limit 0 -delim / -distinct > pico.list
 
 get_file_list.pl -keys path,filename -cond production=P20ic,library=SL21d,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
 
 get_file_list.pl -keys path,filename -cond production=P20ic,library=SL20c,trgsetupname=pp500_production_2017,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
 
+Run12
 get_file_list.pl -keys path,filename -cond production=P12id,library=SL21d,trgsetupname=pp200_production_2012,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
+
+Run15
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200trans_2015,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long_2015,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long2_2015,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long3_2015,filetype=daq_reco_picoDst,filename~st_physics,storage=local -limit 0 -delim / -distinct > pico.list
+
+
+Run15 ssd
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200trans_2015,filetype=daq_reco_picoDst,filename~st_ssdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long_2015,filetype=daq_reco_picoDst,filename~st_ssdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long2_2015,filetype=daq_reco_picoDst,filename~st_ssdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long3_2015,filetype=daq_reco_picoDst,filename~st_ssdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+
+Run15 nossd
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200trans_2015,filetype=daq_reco_picoDst,filename~st_nossdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long_2015,filetype=daq_reco_picoDst,filename~st_nossdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long2_2015,filetype=daq_reco_picoDst,filename~st_nossdmb,storage=local -limit 0 -delim / -distinct > pico.list
+
+get_file_list.pl -keys path,filename -cond production=P16id,library=SL19c,trgsetupname=production_pp200long3_2015,filetype=daq_reco_picoDst,filename~st_nossdmb,storage=local -limit 0 -delim / -distinct > pico.list

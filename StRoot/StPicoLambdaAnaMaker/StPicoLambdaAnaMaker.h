@@ -146,7 +146,7 @@ private:
    //---Variables for TTree---------------------------
 	//event stats
 	Int_t runId, eventId;
-  Float_t VzVzVPDmax;
+  Float_t Vz, VzVzVPDmax;
   
   //leading and subleading particles
   Float_t lead_pt, lead_eta, lead_phi;

@@ -1,9 +1,12 @@
 #!/bin/bash
 
-#max. line is 70025 in Run12 file list SL21d
+#max. line is 22173 in file list SL21d
+#max. line is 444695 in file list SL20d
+#max. line is 599253 in file list SL22b
+#max. line is 651714 in file list SL22b new
+#to test submit
 
-#sed -n '1,66002 p' ./picoLists/picoList_Run12_SL21d_new.list > picoList_submit.list
-sed -n '1,1000 p' ./picoLists/picoList_Run12_SL21d_new.list > picoList_submit.list
+sed -n '100000,101000 p' ./picoLists/picoList_Run17_SL22b_new.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 
@@ -18,13 +21,13 @@ trigger=0
 
 echo executing submitPicoHFMaker.csh f0r picoList_test.list inside $path
 
-starver SL21d
+starver SL22b
 
 #re-compile under correct library
-./compile_SL21d.csh
+./compile_SL22b.csh
 
 #for list generated directly by sed ad the top of this macro
-csh starSubmit/submitPicoHFMaker_Run12_SL21d.csh $path picoList_submit.list $trigger
+csh starSubmit/submitPicoHFMaker_Run17_SL22b.csh $path picoList_submit.list $trigger
 
 #for pre-generated sublists
 #csh starSubmit/submitPicoHFMaker.csh $path ./picoLists/sublists/picoList_test_08.list

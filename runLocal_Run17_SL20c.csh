@@ -14,4 +14,4 @@ set makerMode=0
 
 root4star -l -b -q './StRoot/macros/loadSharedHFLibraries.C'
 
-root4star -l -b -q './StRoot/macros/runPicoLambdaAnaMaker.C("./picoLists/local_testList_SL20c.list","output_test",'$makerMode',"./picoLists/BadRunList_MB.list","picoHFtree","/star/u/vanekjan/pwg/vanekjan/myLambdaAnalysis/pp510GeV_Run17/input_local/SL20c/",0,"SL20c",0)'
+root4star -l -b -q './StRoot/macros/runPicoLambdaAnaMaker.C("./picoLists/local_testList_SL20c.list","output_test",'$makerMode',"./picoLists/BadRunList_MB.list","picoHFtree","/star/u/vanekjan/pwg/vanekjan/myLambdaAnalysis/pp/input_local/SL20c/",0,"SL20c",0)'
