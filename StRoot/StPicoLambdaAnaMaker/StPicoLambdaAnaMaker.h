@@ -145,7 +145,7 @@ private:
 
    //---Variables for TTree---------------------------
 	//event stats
-	Int_t runId, eventId;
+  Int_t runId, eventId;
   Float_t Vz, VzVzVPDmax;
   
   //leading and subleading particles
@@ -153,21 +153,21 @@ private:
   Float_t sublead_pt, sublead_eta, sublead_phi;
 
   //daughter 1
-	Float_t p1_phi, p1_eta, p1_pt, p1_dca; 
-	Int_t p1_ch;
+  Float_t p1_phi, p1_eta, p1_pt, p1_dca; 
+  Int_t p1_ch;
   Int_t p1_hasTOFinfo;
 
 
 	//daughter 2
-	Float_t p2_phi, p2_eta, p2_pt, p2_dca, p2_ch;
+  Float_t p2_phi, p2_eta, p2_pt, p2_dca, p2_ch;
   Int_t p2_hasTOFinfo;
 
 
 	//pair
-	Int_t pair_charge;
+  Int_t pair_charge;
   Float_t pair_DCAdaughters;
  
-	Float_t pair_theta, pair_cosThetaStar, pair_decayL, pair_phi, pair_eta, pair_pt, pair_mass;
+  Float_t pair_theta, pair_cosThetaStar, pair_decayL, pair_phi, pair_eta, pair_pt, pair_mass;
 
   //production plane
   Float_t thetaProdPlane;
