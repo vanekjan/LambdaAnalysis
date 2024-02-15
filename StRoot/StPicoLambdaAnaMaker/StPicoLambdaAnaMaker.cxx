@@ -572,7 +572,8 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
       VzVzVPDmax = fabs(mPicoDst->event()->primaryVertex().z() - mPicoDst->event()->vzVpd());
 
       p1_pt  = part1->gPt();
-      p1_phi = part1->gMom().Phi();
+      //p1_phi = part1->gMom().Phi(); //old - calculated at PV
+      p1_phi = part1->gMom(pair->decayVertex(), mBField).Phi(); //20240215 update - calculate at SV, check usage of B field
       p1_eta = part1->gMom(mPrimVtx,mBField).PseudoRapidity();
       p1_dca = part1->gDCAxy(mPrimVtx.x(), mPrimVtx.y());
       p1_ch = part1->charge();
@@ -580,7 +581,8 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
       
       //eventId and runId common for all particles in the triplet
       p2_pt = part2->gPt();
-      p2_phi = part2->gMom().Phi();
+      //p2_phi = part2->gMom().Phi(); //old - calculated at PV
+      p2_phi = part2->gMom(pair->decayVertex(), mBField).Phi(); //20240215 update - calculate at SV, check usage of B field
       p2_eta = part2->gMom(mPrimVtx,mBField).PseudoRapidity(); 
       p2_dca = part2->gDCAxy(mPrimVtx.x(), mPrimVtx.y());
       p2_ch = part2->charge();
