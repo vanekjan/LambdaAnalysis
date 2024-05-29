@@ -61,6 +61,7 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_Lambda->Branch("sublead_eta", &sublead_eta, "sublead_eta/F");             //Float_t p1_eta
 
     //proton
+    ntp_Lambda->Branch("p1_InEventID", &p1_InEventID, "p1_InEventID/I");               //Float_t p1_InEventID
     ntp_Lambda->Branch("p1_pt", &p1_pt, "p1_pt/F");               //Float_t p1_pt
     ntp_Lambda->Branch("p1_phi", &p1_phi, "p1_phi/F");             //Float_t p1_phi
     ntp_Lambda->Branch("p1_eta", &p1_eta, "p1_eta/F");             //Float_t p1_eta
@@ -69,6 +70,7 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_Lambda->Branch("p1_hasTOFinfo", &p1_hasTOFinfo, "p1_hasTOFinfo/I");   //Float_t p1_hasTOFinfo
 
     //pion
+    ntp_Lambda->Branch("p2_InEventID", &p2_InEventID, "p2_InEventID/I");               //Float_t p2_InEventID
     ntp_Lambda->Branch("p2_pt", &p2_pt, "p2_pt/F");               //Float_t p2_pt
     ntp_Lambda->Branch("p2_phi", &p2_phi, "p2_phi/F");             //Float_t p2_phi
     ntp_Lambda->Branch("p2_eta", &p2_eta, "p2_eta/F");             //Float_t p2_eta
@@ -117,6 +119,7 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_K0s->Branch("sublead_eta", &sublead_eta, "sublead_eta/F");             //Float_t p1_eta
 
     //Pion 1
+    ntp_K0s->Branch("p1_InEventID", &p1_InEventID, "p1_InEventID/I");               //Float_t p1_InEventID
     ntp_K0s->Branch("p1_pt", &p1_pt, "p1_pt/F");               //Float_t p1_pt
     ntp_K0s->Branch("p1_phi", &p1_phi, "p1_phi/F");             //Float_t p1_phi
     ntp_K0s->Branch("p1_eta", &p1_eta, "p1_eta/F");             //Float_t p1_eta
@@ -125,6 +128,7 @@ int StPicoLambdaAnaMaker::InitHF() {
     ntp_K0s->Branch("p1_hasTOFinfo", &p1_hasTOFinfo, "p1_hasTOFinfo/I");   //Float_t p1_hasTOFinfo
 
     //pion 2
+    ntp_K0s->Branch("p2_InEventID", &p2_InEventID, "p2_InEventID/I");               //Float_t p1_InEventID
     ntp_K0s->Branch("p2_pt", &p2_pt, "p2_pt/F");               //Float_t p2_pt
     ntp_K0s->Branch("p2_phi", &p2_phi, "p2_phi/F");             //Float_t p2_phi
     ntp_K0s->Branch("p2_eta", &p2_eta, "p2_eta/F");             //Float_t p2_eta
@@ -466,7 +470,7 @@ int StPicoLambdaAnaMaker::createCandidates() {
       if (mIdxPicoProtons[idxProton] == mIdxPicoPions[idxPion]) continue;
 
       // -- Making pair, want proton first for cosThetaStar calculation
-      StHFPair pair(proton, pion, mHFCuts->getHypotheticalMass(StHFCuts::kProton), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoProtons[idxProton], mIdxPicoPions[idxPion], mPrimVtx, mBField);
+      StHFPair pair(proton, pion, mHFCuts->getHypotheticalMass(StHFCuts::kProton), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoProtons[idxProton], mIdxPicoPions[idxPion], mPrimVtx, mBField, false);
 
       //cout<<pair.prodPlane().x()<<endl;
 
@@ -483,7 +487,7 @@ int StPicoLambdaAnaMaker::createCandidates() {
 
       if (mIdxPicoPions[idxPion2] == mIdxPicoPions[idxPion]) continue;
 
-      StHFPair pair2(pion, pion2, mHFCuts->getHypotheticalMass(StHFCuts::kPion), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoPions[idxPion], mIdxPicoPions[idxPion2], mPrimVtx, mBField);
+      StHFPair pair2(pion, pion2, mHFCuts->getHypotheticalMass(StHFCuts::kPion), mHFCuts->getHypotheticalMass(StHFCuts::kPion), mIdxPicoPions[idxPion], mIdxPicoPions[idxPion2], mPrimVtx, mBField, true);
 
       if(!mHFCuts->isGoodSecondaryVertexPair_2(pair2)) continue;
 
@@ -571,19 +575,21 @@ int StPicoLambdaAnaMaker::analyzeCandidates() {
       Vz = mPicoDst->event()->primaryVertex().z();
       VzVzVPDmax = fabs(mPicoDst->event()->primaryVertex().z() - mPicoDst->event()->vzVpd());
 
+      p1_InEventID = pair->particle1Idx();
       p1_pt  = part1->gPt();
       //p1_phi = part1->gMom().Phi(); //old - calculated at PV
       p1_phi = part1->gMom(pair->decayVertex(), mBField).Phi(); //20240215 update - calculate at SV, check usage of B field
-      p1_eta = part1->gMom(mPrimVtx,mBField).PseudoRapidity();
+      p1_eta = part1->gMom(pair->decayVertex() ,mBField).PseudoRapidity();
       p1_dca = part1->gDCAxy(mPrimVtx.x(), mPrimVtx.y());
       p1_ch = part1->charge();
       
       
       //eventId and runId common for all particles in the triplet
+      p2_InEventID = pair->particle2Idx();
       p2_pt = part2->gPt();
       //p2_phi = part2->gMom().Phi(); //old - calculated at PV
       p2_phi = part2->gMom(pair->decayVertex(), mBField).Phi(); //20240215 update - calculate at SV, check usage of B field
-      p2_eta = part2->gMom(mPrimVtx,mBField).PseudoRapidity(); 
+      p2_eta = part2->gMom(pair->decayVertex() ,mBField).PseudoRapidity(); 
       p2_dca = part2->gDCAxy(mPrimVtx.x(), mPrimVtx.y());
       p2_ch = part2->charge();
 

@@ -65,11 +65,29 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StPicoTrack const * cons
   StPicoPhysicalHelix const p2StraightLine(p2Mom, p2Helix.origin(), 0, particle2->charge());
 
   pair<double, double> const ss = (useStraightLine) ? p1StraightLine.pathLengths(p2StraightLine) : p1Helix.pathLengths(p2Helix);
-  TVector3 const p1AtDcaToP2 = p1StraightLine.at(ss.first);
-  TVector3 const p2AtDcaToP1 = p2StraightLine.at(ss.second);
-
-  // -- calculate DCA of particle1 to particle2 at their DCA
-  mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+  
+  if(useStraightLine)
+  {
+    TVector3 const p1AtDcaToP2 = p1StraightLine.at(ss.first);
+    TVector3 const p2AtDcaToP1 = p2StraightLine.at(ss.second);  
+    
+    // -- calculate DCA of particle1 to particl2 at their DCA
+    mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+    
+    // -- calculate decay vertex (secondary) 
+    mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
+  }
+  else
+  {
+    TVector3 const p1AtDcaToP2 = p1Helix.at(ss.first);
+    TVector3 const p2AtDcaToP1 = p2Helix.at(ss.second);  
+    
+    // -- calculate DCA of particle1 to particl2 at their DCA
+    mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+    
+    // -- calculate decay vertex (secondary) 
+    mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
+  }
 
   // -- calculate Lorentz vector of particle1-particle2 pair
   TVector3 const p1MomAtDca = p1Helix.momentumAt(ss.first,  bField * kilogauss);
@@ -94,9 +112,6 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StPicoTrack const * cons
   mThetaProdPlane = mProdPlane.Angle(p1FourMomStar.Vect());
 
   //cout<<mThetaProdPlane<<endl; 
-
-  // -- calculate decay vertex (secondary or tertiary) 
-  mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
  
   // -- calculate pointing angle and decay length with respect to primary vertex 
   //    if decay vertex is a tertiary vertex
@@ -153,11 +168,31 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StHFPair const * const p
   StPicoPhysicalHelix const p2StraightLine(p2Mom, p2Helix.origin(), 0, p2Charge);
   
   pair<double, double> const ss = (useStraightLine) ? p1StraightLine.pathLengths(p2StraightLine) : p1Helix.pathLengths(p2Helix);
-  TVector3 const p1AtDcaToP2 = p1StraightLine.at(ss.first);
-  TVector3 const p2AtDcaToP1 = p2StraightLine.at(ss.second);
-
-  // -- calculate DCA of particle1 to particl2 at their DCA
-  mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+  
+    
+  if(useStraightLine)
+  {
+    TVector3 const p1AtDcaToP2 = p1StraightLine.at(ss.first);
+    TVector3 const p2AtDcaToP1 = p2StraightLine.at(ss.second);  
+    
+    // -- calculate DCA of particle1 to particl2 at their DCA
+    mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+    
+    // -- calculate decay vertex (secondary) 
+    mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
+  }
+  else
+  {
+    TVector3 const p1AtDcaToP2 = p1Helix.at(ss.first);
+    TVector3 const p2AtDcaToP1 = p2Helix.at(ss.second);  
+    
+    // -- calculate DCA of particle1 to particl2 at their DCA
+    mDcaDaughters = (p1AtDcaToP2 - p2AtDcaToP1).Mag();
+    
+    // -- calculate decay vertex (secondary) 
+    mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
+  }
+  
    
   // -- calculate Lorentz vector of particle1-particle2 pair
   TVector3 const p1MomAtDca = p1Helix.momentumAt(ss.first,  bField * kilogauss);
@@ -180,9 +215,7 @@ StHFPair::StHFPair(StPicoTrack const * const particle1, StHFPair const * const p
   mProdPlane = ( mProdPlane_work )*(1./mProdPlane_work.Mag() );
 
   mThetaProdPlane = mProdPlane.Angle(p1FourMomStar.Vect());
-
-  // -- calculate decay vertex (secondary) 
-  mDecayVertex = (p1AtDcaToP2 + p2AtDcaToP1) * 0.5 ;
+  
 
   // -- calculate pointing angle and decay length with respect to primary vertex
   TVector3 const vtxToV0 = mDecayVertex - vtx;

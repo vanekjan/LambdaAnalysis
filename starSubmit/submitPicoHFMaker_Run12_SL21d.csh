@@ -73,10 +73,10 @@ set productionbasePath=root://xrdstar.rcf.bnl.gov:1095//home/starlib/home/starre
 set xmlFile=submitPicoHFMaker.xml
 
 # -- set min and mx number of files, orig 80 to 90
-set minNFiles=10
-set maxNFiles=15
+set minNFiles=5
+set maxNFiles=4
 
-set filesPerH=10
+set filesPerH=5
 
 # ###############################################
 # -- DON'T CHANGE BELOW THAT LINE

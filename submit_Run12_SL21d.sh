@@ -1,9 +1,8 @@
 #!/bin/bash
 
-#max. line is 70025 in Run12 file list SL21d
+#max. line is 76023 in Run12 file list SL21d
 
-#sed -n '1,66002 p' ./picoLists/picoList_Run12_SL21d_new.list > picoList_submit.list
-sed -n '1,1000 p' ./picoLists/picoList_Run12_SL21d_new.list > picoList_submit.list
+sed -n '1,1000 p' ./picoLists/picoList_Run12_SL21d.list > picoList_submit.list
 
 #sort ./picoLists/sublists/picoList_test.list > ./picoLists/sublists/picoList_test_09.list
 

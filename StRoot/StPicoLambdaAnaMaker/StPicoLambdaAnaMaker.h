@@ -153,12 +153,14 @@ private:
   Float_t sublead_pt, sublead_eta, sublead_phi;
 
   //daughter 1
+  Int_t p1_InEventID;
   Float_t p1_phi, p1_eta, p1_pt, p1_dca; 
   Int_t p1_ch;
   Int_t p1_hasTOFinfo;
 
 
 	//daughter 2
+	Int_t p2_InEventID;
   Float_t p2_phi, p2_eta, p2_pt, p2_dca, p2_ch;
   Int_t p2_hasTOFinfo;
 
